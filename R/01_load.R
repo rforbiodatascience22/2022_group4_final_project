@@ -3,14 +3,13 @@
 
 library("tidyverse")
 
-
 # Functions ---------------------------------------------------------------
 
 source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 
-my_data_raw <- read_tsv(file = "data/_raw/kidney_disease.tsv")
+my_data_raw <- read_csv(file = "data/_raw/kidney_disease.csv")
 
 
 # Wrangle data ------------------------------------------------------------

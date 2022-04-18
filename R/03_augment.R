@@ -20,7 +20,21 @@ my_data_clean <- read_tsv(file = "data/02_my_data_clean.tsv")
 #where you create your database for everything that happens afterwards
 #f.ex if we add a new variable subsch as BMI
 
-my_data_clean_aug <- my_data_clean
+my_data_clean_aug <- my_data_clean %>%
+  mutate(my_data_clean,
+         disease_no = case_when(dm == "no" & cad == "no" & pe == "no" ~ 0 ,
+                                dm == "yes" & cad == "no" & pe =="no" ~ 1,
+                                dm == "no" & cad == "yes" & pe == "no" ~ 1,
+                                dm == "no" & cad == "no" & pe == "yes" ~ 1,
+                                dm == "yes" & cad == "yes" & pe == "no" ~ 2,
+                                dm == "no" & cad == "yes" & pe == "yes" ~ 2,
+                                dm == "yes" & cad == "no" & pe == "yes" ~ 2,
+                                dm == "yes" & cad == "yes" & pe =="yes" ~ 3
+         ),
+         disease_type = case_when(disease_no == 1 & dm == "yes" ~ "dm",
+                                  disease_no == 1 & cad == "yes" ~ "cad",
+                                  disease_no == 1 & pe == "yes" ~ "pe")
+         )
 
 # Write data --------------------------------------------------------------
 
