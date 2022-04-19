@@ -36,6 +36,7 @@ my_data_clean_aug <- my_data_clean %>%
                                   disease_no == 1 & pe == "yes" ~ "pe")
          )
 
+#add age groups variable
 # Write data --------------------------------------------------------------
 
 write_tsv(x = my_data_clean_aug,

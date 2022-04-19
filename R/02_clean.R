@@ -20,6 +20,7 @@ my_data <- read_csv(file = "data/01_my_data.csv")
 
 my_data_clean <- my_data
 
+#rename columns
 
 # Write data --------------------------------------------------------------
 
