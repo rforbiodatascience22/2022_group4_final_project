@@ -69,11 +69,7 @@ cor_heatmap = ggplot(my_data_clean_aug_cor,
                      geom_tile()  +
                      geom_text(aes(label = value), 
                                color = "white", 
-<<<<<<< HEAD
                                size = 1.7) +
-=======
-                               size = 2) +
->>>>>>> 6d821e7e2b889dea3857eb42bef2b3f5ab33e8f7
                      scale_fill_viridis(alpha = 0.85) +
                      xlab('') +
                      ylab('') + 
