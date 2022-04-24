@@ -1,7 +1,7 @@
 # Libraries ---------------------------------------------------------------
 install.packages("reshape")
 install.packages("viridis")
-library("tidyverse")
+library(tidyverse)
 library(viridis)
 library(reshape)
 library(tidyverse)
@@ -67,7 +67,7 @@ write_tsv(x = my_data_clean,
           file = "data/02_my_data_clean.tsv")
 
 ## Write plots ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ggsave("missing_values.png", path = "figures/" , plot = NaS)
+ggsave("missing_values.png", path = "figures" , plot = missing_values)
 
 
 
