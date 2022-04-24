@@ -1,9 +1,10 @@
-
 # Libraries ---------------------------------------------------------------
-
+install.packages("reshape")
+install.packages("viridis")
 library("tidyverse")
-
-
+library(viridis)
+library(reshape)
+library(tidyverse)
 # Functions ---------------------------------------------------------------
 
 source(file = "R/99_project_functions.R")
@@ -11,18 +12,62 @@ source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 
-my_data <- read_csv(file = "data/01_my_data.csv")
+my_data = read_csv(file = "data/01_my_data.csv")
+
+## Plot missing values ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+missing_values = my_data %>% 
+        summarize_all(funs(sum(is.na(.)) * 100 / length(.))) %>% 
+        pivot_longer(!id,names_to="columns", values_to="missing_data") %>% 
+        select(columns, missing_data) %>% 
+        arrange(desc(missing_data)) %>% 
+        ggplot(aes(x = reorder(columns,desc(missing_data)), y = missing_data)) +
+        geom_col() +
+        theme(axis.text.x = element_text(angle = 45,vjust = 1, hjust = 1)) +
+        xlab('Attributes') +
+        ylab('Missing data')
 
 
-# Wrangle data ------------------------------------------------------------
+## Casting numbers treaed as chars to dtpýpe numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+my_data_clean = my_data %>% mutate(pcv = as.numeric(pcv),
+                             wc = as.numeric(wc),
+                             rc = as.numeric(rc))
 
-#here comes the cleaning script
 
-my_data_clean <- my_data
+## Replacing numeric missing values to median of each of the columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+my_data_clean = my_data_clean %>% 
+  mutate_if(is.numeric, function(x) ifelse(is.na(x), median(x, na.rm = T), x))
 
-#rename columns
 
-# Write data --------------------------------------------------------------
+## Dropping missing values in categorical columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+my_data_clean = my_data_clean %>% na.omit()
 
+## Fixing misspelled target variable and cad column----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+my_data_clean = my_data_clean %>% 
+  mutate(
+    classification = ifelse(
+      classification == "ckd\t",
+      "ckd", 
+      classification),
+    cad = ifelse(
+      cad == "\tno",
+      "no", 
+      cad))
+
+## Casting chars to categorical variable ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Having categorical variables we can easily cast them to numerical right before plotting or modelling. Casting formula below.
+# mutate_if(is.factor, as.numeric)
+# Casting was not applied here not to loose the meaning of each of the vars. Encoded labels will be less explenatory at this point.
+
+my_data_clean = my_data_clean %>%
+  mutate_if(is.character, as.factor)
+
+## Write data ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 write_tsv(x = my_data_clean,
           file = "data/02_my_data_clean.tsv")
+
+## Write plots ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ggsave("missing_values.png", path = "figures/" , plot = NaS)
+
+
+
