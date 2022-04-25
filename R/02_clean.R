@@ -28,18 +28,24 @@ missing_values = my_data %>%
 
 
 ## Casting numbers treaed as chars to dtpýpe numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-my_data_clean = my_data %>% mutate(pcv = as.numeric(pcv),
-                             wc = as.numeric(wc),
-                             rc = as.numeric(rc))
+my_data_clean = my_data %>% 
+  mutate(pcv = as.numeric(pcv),
+         wc = as.numeric(wc),
+         rc = as.numeric(rc))
 
 
 ## Replacing numeric missing values to median of each of the columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 my_data_clean = my_data_clean %>% 
-  mutate_if(is.numeric, function(x) ifelse(is.na(x), median(x, na.rm = T), x))
+  mutate_if(is.numeric , 
+            function(x) ifelse(is.na(x) , 
+                               median(x , 
+                                      na.rm = T) , 
+                               x))
 
 
 ## Dropping missing values in categorical columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-my_data_clean = my_data_clean %>% na.omit()
+my_data_clean = my_data_clean %>% 
+  na.omit()
 
 ## Fixing misspelled target variable and cad column----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 my_data_clean = my_data_clean %>% 
