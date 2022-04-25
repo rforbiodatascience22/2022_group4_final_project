@@ -23,6 +23,11 @@ my_data_clean_aug = my_data_clean_aug %>%
 # Wrangle data ------------------------------------------------------------
 # Inspired by https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/
 
+# https://www.youtube.com/watch?v=am3dgqjd19U&ab_channel=AndrewCouch
+
+
+
+
 my_data_clean_aug %>% 
   group_by(classification) %>% 
   count()
@@ -61,6 +66,16 @@ model_rf %>%
   predict(test) %>%
   bind_cols(test) %>%
   metrics(truth = classification, estimate = .pred_class)
+
+rf_proba = model_rf %>%
+            predict(test) %>%
+            bind_cols(test, type = "proba") %>% 
+            glimpse()
+
+rf_proba%>%
+  gain_curve(classification, .pred_class) %>%
+  glimpse()
+
 glimpse(model_rf)
 
 
