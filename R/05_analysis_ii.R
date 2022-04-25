@@ -22,8 +22,11 @@ my_data_clean_aug = my_data_clean_aug %>%
 
 # Wrangle data ------------------------------------------------------------
 # Inspired by https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/
+<<<<<<< HEAD
 # https://www.youtube.com/watch?v=am3dgqjd19U&ab_channel=AndrewCouch
 
+=======
+>>>>>>> 661efe1daa0af8bb151f78aaaa0360157b372ac3
 
 my_data_clean_aug %>% 
   group_by(classification) %>% 
@@ -72,6 +75,8 @@ rf_proba = model_rf %>%
 rf_proba%>%
   gain_curve(classification, .pred_class) %>%
   glimpse()
+
+glimpse(model_rf)
 
 #Feature importance extraction
 #https://www.tidymodels.org/start/case-study/
