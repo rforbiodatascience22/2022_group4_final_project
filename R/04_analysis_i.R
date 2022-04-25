@@ -71,6 +71,7 @@ my_data_clean_aug_cor = my_data_clean_aug %>%
   round(2) %>%
   melt()
 
+
 # Visualize data ----------------------------------------------------------
 
 ## Correlation heatmap
@@ -190,9 +191,42 @@ red_blood = ggplot(my_data_clean_aug_redblood ,
   )
 plot(red_blood)
 
+
+#plot relationship between hemoglobin and albumin grouped by classification
+
+hemo_al_plot = my_data_clean %>% 
+  select(classification, hemo, al) %>% 
+  ggplot(mapping = aes(x = al , 
+                       y = hemo ,
+                       fill = classification))+
+  geom_boxplot()
+
+plot(hemo_al_plot)
+
+
+#plot relationship between hemoglobin and packed cell volume grouped by classification
+#A convention that has been adopted in medicine is to estimate haemoglobin (HB)
+#concentration as a third of packed cell volume (PCV) or vice versa. 
+
+
+hemo_pvc_plot = my_data_clean %>% 
+  select(classification, hemo, pcv) %>% 
+  ggplot(mapping = aes(x = pcv , 
+                       y = hemo ,
+                       color = classification))+
+  geom_point() +
+  theme_minimal()+
+  labs(x = "Packed cell volume",
+       y = "Hemoglobin (gms)",
+       title = "Relationship between hemoglobin and packed cell volume"
+  )
+
+plot(hemo_pvc_plot)
+
 # Write data --------------------------------------------------------------
 #write_tsv(...)
 
+ggsave("hemo_pcv_relationship.png", path = "figures" , plot = hemo_pvc_plot, width = 8, height = 5)
 ggsave("cor_heatmap.png", path = "figures" , plot = cor_heatmap, width = 8, height = 5)
 ggsave("age_distribution.png", path = "figures/distributions" , plot = age_distribution)
 ggsave("disease_no_association.png", path = "figures/" , plot = disease_no)
@@ -201,3 +235,4 @@ ggsave ("infection.png" , path = "figures/distributions" , plot = find_infection
 ggsave ("WC.png" , path = "figures/distributions" , plot = wc)
 ggsave ("diabetes_glucose_level.png" , path = "figures/distributions" , plot = diabetes)
 ggsave ("redblood.png" , path = "figures" , plot = red_blood)
+
