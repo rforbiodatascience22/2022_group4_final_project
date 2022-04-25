@@ -22,34 +22,45 @@ my_data_clean_aug = read_tsv(file = "data/03_my_data_clean_aug.tsv")
 my_data_clean_aug = my_data_clean_aug %>% 
   mutate_if(is.character, as.factor)
 
-# Model data
+#all preparation for plotting
 
-#logistic regression, PCA, clustering using k-means etc
 my_data_clean_aug_age = my_data_clean_aug %>% 
-  select(age,classification) %>%
-  mutate(age = as.numeric(age)) %>%
-  drop_na()
+  select(age, age_group, classification) 
+
 
 my_data_clean_aug_disease = my_data_clean_aug %>% 
   select(id, dm, cad, pe, classification, disease_no) %>%
-  filter(classification == "ckd") %>%
-  drop_na()
+  filter(classification == "ckd")
+
   
 my_data_clean_aug_which_disease = my_data_clean_aug %>%
   select(id, dm, cad, pe, classification, disease_no, disease_type) %>%
   filter(disease_no == 1,
-         classification == "ckd") %>%
-  drop_na()
+         classification == "ckd") 
 
 my_data_clean_aug_infection = my_data_clean_aug %>%
   select(id , age, ba, wc, classification) %>%
-  filter(classification == "ckd") %>%
-  drop_na()
+  filter(classification == "ckd") 
 
 my_data_clean_aug_wc = my_data_clean_aug %>%
-  mutate(wc = as.numeric(wc))%>%
-  select(id , age, ba, wc, classification) %>%
-  drop_na()
+  select(id , age, ba, wc, classification) 
+
+my_data_clean_aug_diabetes = my_data_clean_aug %>%
+  select(id ,
+         dm ,
+         sg ,
+         su ,
+         bgr , 
+         classification) %>%
+  filter(classification == "ckd")
+
+my_data_clean_aug_redblood = my_data_clean_aug %>%
+  select(id ,
+         rbc ,
+         hemo , 
+         rc ,
+         ane , 
+         classification)
 
 my_data_clean_aug_cor = my_data_clean_aug %>% 
   select(-classification, everything()) %>% 
@@ -61,6 +72,8 @@ my_data_clean_aug_cor = my_data_clean_aug %>%
   melt()
 
 # Visualize data ----------------------------------------------------------
+
+## Correlation heatmap
 
 cor_heatmap = ggplot(my_data_clean_aug_cor,
                      aes(x = X1,
@@ -86,18 +99,20 @@ cor_heatmap = ggplot(my_data_clean_aug_cor,
 plot(cor_heatmap)
               
 
+##age distribution plot
+
 age_distribution = ggplot(my_data_clean_aug_age , 
-                           mapping = aes(x = age,
+                           mapping = aes(x = age_group,
        fill = classification))+
-geom_histogram(binwidth = 2)+
+geom_bar(binwidth = 2)+
 labs(x = "Age",
-     y = "frequency",
+     y = "count",
      title = "Distribution of patients' age groupped by CKD and no CKD"
 )+
 scale_fill_manual(values=c("#69b3a2", "#404080"))
   plot(age_distribution)
 
-
+##disease presence besides ckd
 disease_no = ggplot(my_data_clean_aug_disease , 
                      mapping = aes(x = disease_no
                      ))+
@@ -108,6 +123,8 @@ disease_no = ggplot(my_data_clean_aug_disease ,
   )
   plot(disease_no)
   
+
+##which disease is most associated
   
 find_disease = ggplot(my_data_clean_aug_which_disease , 
                        mapping = aes(x = disease_type))+
@@ -118,16 +135,21 @@ find_disease = ggplot(my_data_clean_aug_which_disease ,
   )
 plot(find_disease)
 
+## find correlation between wc and infection status
+
 find_infection = ggplot(my_data_clean_aug_infection , 
                          mapping = aes(x = id , 
                                        y = wc ,
                                        colour = ba))+
   geom_bar(stat = "identity", width=0.2)+
-  labs(x = "count",
-       y = "Patient id",
+  labs(x = "Patient ID",
+       y = "White blood cell count",
        title = "White blood cell count for each CKD patient, grouped by bacterial presence"
-  )
+  ) +
+  coord_flip()
 plot(find_infection)
+
+##distribution of white blood cells count
 
 wc = ggplot(my_data_clean_aug_wc , 
                          mapping = aes(x = wc , 
@@ -139,6 +161,35 @@ wc = ggplot(my_data_clean_aug_wc ,
   )
 plot(wc)
 
+##investigate diabetes markers - correlation with sugar levels
+
+diabetes = ggplot(my_data_clean_aug_diabetes , 
+                  mapping = aes(x = bgr , 
+                                group = dm ,
+                                fill = dm))+
+  geom_density(adjust=1.5) +
+  facet_wrap(~dm) +
+  labs(x = "Blood glucose level (mgs/dl)",
+       y = "Density",
+       title = "Blood glucose for CKD patients with/without diabetes"
+  )
+plot(diabetes)
+
+##investigate red blood cell count in ckd
+
+red_blood = ggplot(my_data_clean_aug_redblood , 
+                  mapping = aes(x = hemo , 
+                                y = rc ,
+                                alpha = ane))+
+  geom_point(size=2, color="red") +
+  facet_wrap(~classification) +
+  labs(x = "Hemoglobin level (gms)",
+       y = "Red blood cell count (millions/cm)",
+       title = "Relationship between hemoglobin and red blood cells count" ,
+       subtitle = "in patients with/without anemia and with/without CKD"
+  )
+plot(red_blood)
+
 # Write data --------------------------------------------------------------
 #write_tsv(...)
 
@@ -148,3 +199,5 @@ ggsave("disease_no_association.png", path = "figures/" , plot = disease_no)
 ggsave ("which_disease.png" , path = "figures/distributions" , plot = find_disease)
 ggsave ("infection.png" , path = "figures/distributions" , plot = find_infection)
 ggsave ("WC.png" , path = "figures/distributions" , plot = wc)
+ggsave ("diabetes_glucose_level.png" , path = "figures/distributions" , plot = diabetes)
+ggsave ("redblood.png" , path = "figures" , plot = red_blood)
