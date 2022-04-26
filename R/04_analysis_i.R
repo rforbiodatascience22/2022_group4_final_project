@@ -24,47 +24,47 @@ my_data_clean_aug = my_data_clean_aug %>%
 
 #all preparation for plotting
 
-my_data_clean_aug_age = my_data_clean_aug %>% 
-  select(age, age_group, classification) 
+my_data_clean_aug_Age= my_data_clean_aug %>% 
+  select(Age, Age_group, Class) 
 
 
 my_data_clean_aug_disease = my_data_clean_aug %>% 
-  select(id, dm, cad, pe, classification, disease_no) %>%
-  filter(classification == "ckd")
+  select(ID, Diabetes, CAD, Pedal_edema, Class, Disease_no) %>%
+  filter(Class == "ckd")
 
   
 my_data_clean_aug_which_disease = my_data_clean_aug %>%
-  select(id, dm, cad, pe, classification, disease_no, disease_type) %>%
-  filter(disease_no == 1,
-         classification == "ckd") 
+  select(ID, Diabetes, CAD, Pedal_edema, Class, Disease_no, Disease_type) %>%
+  filter(Disease_no == 1,
+         Class == "ckd") 
 
 my_data_clean_aug_infection = my_data_clean_aug %>%
-  select(id , age, ba, wc, classification) %>%
-  filter(classification == "ckd") 
+  select(ID, Age, Bacteria, WB_count, Class) %>%
+  filter(Class == "ckd") 
 
 my_data_clean_aug_wc = my_data_clean_aug %>%
-  select(id , age, ba, wc, classification) 
+  select(ID, Age, Bacteria, WB_count, Class) 
 
 my_data_clean_aug_diabetes = my_data_clean_aug %>%
-  select(id ,
-         dm ,
-         sg ,
-         su ,
-         bgr , 
-         classification) %>%
-  filter(classification == "ckd")
+  select(ID,
+         Diabetes ,
+         Specific_gravity ,
+         Sugar ,
+         Blood_glucose , 
+         Class) %>%
+  filter(Class == "ckd")
 
 my_data_clean_aug_redblood = my_data_clean_aug %>%
-  select(id ,
-         rbc ,
-         hemo , 
-         rc ,
-         ane , 
-         classification)
+  select(ID,
+         RB_cells,
+         Hemoglobin , 
+         RB_count ,
+         Anemia , 
+         Class)
 
 my_data_clean_aug_cor = my_data_clean_aug %>% 
-  select(-classification, everything()) %>% 
-  select(!disease_type) %>% 
+  select(-Class, everything()) %>% 
+  select(!Disease_type) %>% 
   mutate_if(is.factor, as.numeric) %>%  # Converting factors to numerical on the spot
   print() %>% 
   cor(use = 'all.obs', method = 'pearson') %>%
@@ -100,22 +100,22 @@ cor_heatmap = ggplot(my_data_clean_aug_cor,
 plot(cor_heatmap)
               
 
-##age distribution plot
+##Agedistribution plot
 
-age_distribution = ggplot(my_data_clean_aug_age , 
-                           mapping = aes(x = age_group,
-       fill = classification))+
+age_distribution = ggplot(my_data_clean_aug_Age, 
+                           mapping = aes(x = Age_group,
+       fill = Class))+
 geom_bar(binwidth = 2)+
 labs(x = "Age",
      y = "count",
-     title = "Distribution of patients' age groupped by CKD and no CKD"
+     title = "Distribution of patients' Agegroupped by CKD and no CKD"
 )+
 scale_fill_manual(values=c("#69b3a2", "#404080"))
   plot(age_distribution)
 
 ##disease presence besides ckd
 disease_no = ggplot(my_data_clean_aug_disease , 
-                     mapping = aes(x = disease_no
+                     mapping = aes(x = Disease_no
                      ))+
   geom_histogram()+
   labs(x = "Number of diseases",
@@ -128,7 +128,7 @@ disease_no = ggplot(my_data_clean_aug_disease ,
 ##which disease is most associated
   
 find_disease = ggplot(my_data_clean_aug_which_disease , 
-                       mapping = aes(x = disease_type))+
+                       mapping = aes(x = Disease_type))+
   geom_bar() +
   labs(x = "Disease type",
        y = "Count",
@@ -139,9 +139,9 @@ plot(find_disease)
 ## find correlation between wc and infection status
 
 find_infection = ggplot(my_data_clean_aug_infection , 
-                         mapping = aes(x = id , 
-                                       y = wc ,
-                                       colour = ba))+
+                         mapping = aes(x = ID, 
+                                       y = WB_count ,
+                                       colour = Bacteria))+
   geom_bar(stat = "identity", width=0.2)+
   labs(x = "Patient ID",
        y = "White blood cell count",
@@ -153,8 +153,8 @@ plot(find_infection)
 ##distribution of white blood cells count
 
 wc = ggplot(my_data_clean_aug_wc , 
-                         mapping = aes(x = wc , 
-                                       fill = classification))+
+                         mapping = aes(x = WB_count , 
+                                       fill = Class))+
   geom_histogram()+
   labs(x = "White blood cells count",
        y = "Frequency",
@@ -165,11 +165,11 @@ plot(wc)
 ##investigate diabetes markers - correlation with sugar levels
 
 diabetes = ggplot(my_data_clean_aug_diabetes , 
-                  mapping = aes(x = bgr , 
-                                group = dm ,
-                                fill = dm))+
+                  mapping = aes(x = Blood_glucose , 
+                                group = Diabetes ,
+                                fill = Diabetes))+
   geom_density(adjust=1.5) +
-  facet_wrap(~dm) +
+  facet_wrap(~Diabetes) +
   labs(x = "Blood glucose level (mgs/dl)",
        y = "Density",
        title = "Blood glucose for CKD patients with/without diabetes"
@@ -179,11 +179,11 @@ plot(diabetes)
 ##investigate red blood cell count in ckd
 
 red_blood = ggplot(my_data_clean_aug_redblood , 
-                  mapping = aes(x = hemo , 
-                                y = rc ,
-                                alpha = ane))+
+                  mapping = aes(x = Hemoglobin , 
+                                y = RB_count ,
+                                alpha = Anemia))+
   geom_point(size=2, color="red") +
-  facet_wrap(~classification) +
+  facet_wrap(~Class) +
   labs(x = "Hemoglobin level (gms)",
        y = "Red blood cell count (millions/cm)",
        title = "Relationship between hemoglobin and red blood cells count" ,
@@ -195,10 +195,12 @@ plot(red_blood)
 #plot relationship between hemoglobin and albumin grouped by classification
 
 hemo_al_plot = my_data_clean %>% 
-  select(classification, hemo, al) %>% 
-  ggplot(mapping = aes(x = al , 
-                       y = hemo ,
-                       fill = classification))+
+  select(Class,
+         Hemoglobin,
+         Albumin) %>% 
+  ggplot(mapping = aes(x = Albumin, 
+                       y = Hemoglobin ,
+                       fill = Class))+
   geom_boxplot()
 
 plot(hemo_al_plot)
@@ -210,16 +212,17 @@ plot(hemo_al_plot)
 
 
 hemo_pvc_plot = my_data_clean %>% 
-  select(classification, hemo, pcv) %>% 
-  ggplot(mapping = aes(x = pcv , 
-                       y = hemo ,
-                       color = classification))+
+  select(Class, 
+         Hemoglobin, 
+         Packed_cell_vol) %>% 
+  ggplot(mapping = aes(x = Packed_cell_vol , 
+                       y = Hemoglobin ,
+                       color = Class))+
   geom_point() +
   theme_minimal()+
   labs(x = "Packed cell volume",
        y = "Hemoglobin (gms)",
-       title = "Relationship between hemoglobin and packed cell volume"
-  )
+       title = "Relationship between hemoglobin and packed cell volume")
 
 plot(hemo_pvc_plot)
 

@@ -1,5 +1,5 @@
 # Load libraries ----------------------------------------------------------
-
+install.packages("vip")
 library(tidymodels)
 library(tidyverse)
 library(vip)
@@ -15,10 +15,10 @@ source(file = "R/99_project_functions.R")
 
 my_data_clean_aug = read_tsv(file = "data/03_my_data_clean_aug.tsv")
 my_data_clean_aug = my_data_clean_aug %>%
-  select(!disease_type) %>% 
+  select(!Disease_type) %>% 
   mutate_if(is.character, as.factor) %>% 
   mutate_if(is.factor, as.numeric) %>% 
-  mutate(classification = as.factor(classification))
+  mutate(Class = as.factor(Class))
 
 # Wrangle data ------------------------------------------------------------
 # Inspired by https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/
@@ -29,7 +29,7 @@ my_data_clean_aug = my_data_clean_aug %>%
 
 
 my_data_clean_aug %>% 
-  group_by(classification) %>% 
+  group_by(Class) %>% 
   count()
 
 #There are two special interpretations of . in a formula. 

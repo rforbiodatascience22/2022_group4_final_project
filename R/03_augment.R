@@ -11,7 +11,6 @@ source(file = "R/99_project_functions.R")
 
 # Load data ---------------------------------------------------------------
 
-my_data_clean <- read_tsv(file = "data/02_my_data_clean.tsv")
 
 
 # Wrangle data ------------------------------------------------------------
@@ -22,28 +21,28 @@ my_data_clean <- read_tsv(file = "data/02_my_data_clean.tsv")
 
 my_data_clean_aug <- my_data_clean %>%
   mutate(my_data_clean ,
-         disease_no = case_when(dm == "no" & cad == "no" & pe == "no" ~ 0 ,
-                                dm == "yes" & cad == "no" & pe =="no" ~ 1 ,
-                                dm == "no" & cad == "yes" & pe == "no" ~ 1 ,
-                                dm == "no" & cad == "no" & pe == "yes" ~ 1 ,
-                                dm == "yes" & cad == "yes" & pe == "no" ~ 2 ,
-                                dm == "no" & cad == "yes" & pe == "yes" ~ 2 ,
-                                dm == "yes" & cad == "no" & pe == "yes" ~ 2 ,
-                                dm == "yes" & cad == "yes" & pe =="yes" ~ 3) ,
-         disease_type = case_when(disease_no == 1 & dm == "yes" ~ "dm" ,
-                                  disease_no == 1 & cad == "yes" ~ "cad" ,
-                                  disease_no == 1 & pe == "yes" ~ "pe")
+         Disease_no = case_when(Diabetes == "no" & CAD == "no" & Pedal_edema == "no" ~ 0 ,
+                                Diabetes == "yes" & CAD == "no" & Pedal_edema =="no" ~ 1 ,
+                                Diabetes == "no" & CAD == "yes" & Pedal_edema == "no" ~ 1 ,
+                                Diabetes == "no" & CAD == "no" & Pedal_edema == "yes" ~ 1 ,
+                                Diabetes == "yes" & CAD == "yes" & Pedal_edema == "no" ~ 2 ,
+                                Diabetes == "no" & CAD == "yes" & Pedal_edema == "yes" ~ 2 ,
+                                Diabetes == "yes" & CAD == "no" & Pedal_edema == "yes" ~ 2 ,
+                                Diabetes == "yes" & CAD == "yes" & Pedal_edema =="yes" ~ 3) ,
+         Disease_type = case_when(Disease_no == 1 & Diabetes == "yes" ~ "dm" ,
+                                  Disease_no == 1 & CAD == "yes" ~ "cad" ,
+                                  Disease_no == 1 & Pedal_edema == "yes" ~ "pe")
          )
 
-#add age groups variable
+#add Age groups variable
 
 my_data_clean_aug <- my_data_clean_aug %>%
   mutate(my_data_clean ,
-         age_group = case_when(age <= 20 ~ "0-20" ,
-                               20 < age & age <= 40 ~ "20-40" ,
-                               40 < age & age <= 60 ~ "40-60" ,
-                               60 < age & age <= 80 ~ "60-80" ,
-                               80 < age ~ ">80")
+         Age_group = case_when(Age <= 20 ~ "0-20" ,
+                               20 < Age & Age <= 40 ~ "20-40" ,
+                               40 < Age & Age <= 60 ~ "40-60" ,
+                               60 < Age & Age <= 80 ~ "60-80" ,
+                               80 < Age ~ ">80")
          )
 
 # Write data --------------------------------------------------------------

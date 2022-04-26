@@ -68,6 +68,38 @@ my_data_clean = my_data_clean %>%
 my_data_clean = my_data_clean %>%
   mutate_if(is.character, as.factor)
 
+#Rename Variables
+my_data_clean <- as_tibble(my_data_clean) %>%
+  dplyr::rename(ID = id) %>%
+  dplyr::rename(Age = age) %>%
+  dplyr::rename(Blood_pressure = bp) %>%
+  dplyr::rename(Specific_gravity = sg) %>%
+  dplyr::rename(Albumin = al) %>%
+  dplyr::rename(Sugar = su) %>%
+  dplyr::rename(RB_cells = rbc) %>%
+  dplyr::rename(Pus_cell = pc) %>%
+  dplyr::rename(Pus_cell_clump = pcc) %>%
+  dplyr::rename(Bacteria = ba) %>%
+  dplyr::rename(Blood_glucose = bgr) %>%
+  dplyr::rename(Blood_urea = bu) %>%
+  dplyr::rename(Serum_creatinine = sc) %>%
+  dplyr::rename(Sodium = sod) %>%
+  dplyr::rename(Potassium = pot) %>%
+  dplyr::rename(Hemoglobin = hemo) %>%
+  dplyr::rename(Packed_cell_vol = pcv) %>%
+  dplyr::rename(WB_count = wc) %>%
+  dplyr::rename(RB_count = rc) %>%
+  dplyr::rename(Hypertension = htn) %>%
+  dplyr::rename(Diabetes = dm) %>%
+  dplyr::rename(CAD = cad) %>%
+  dplyr::rename(Appetite = appet) %>%
+  dplyr::rename(Pedal_edema = pe) %>%
+  dplyr::rename(Anemia = ane) %>%
+  dplyr::rename(Class = classification) 
+
+
+
+
 ## Write data ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 write_tsv(x = my_data_clean,
           file = "data/02_my_data_clean.tsv")
