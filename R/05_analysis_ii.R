@@ -1,5 +1,4 @@
 # Load libraries ----------------------------------------------------------
-install.packages("vip")
 library(tidymodels)
 library(tidyverse)
 library(vip)

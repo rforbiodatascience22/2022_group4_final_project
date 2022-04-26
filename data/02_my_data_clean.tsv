@@ -1,4 +1,4 @@
-id	age	bp	sg	al	su	rbc	pc	pcc	ba	bgr	bu	sc	sod	pot	hemo	pcv	wc	rc	htn	dm	cad	appet	pe	ane	classification
+ID	Age	Blood_pressure	Specific_gravity	Albumin	Sugar	RB_cells	Pus_cell	Pus_cell_clump	Bacteria	Blood_glucose	Blood_urea	Serum_creatinine	Sodium	Potassium	Hemoglobin	Packed_cell_vol	WB_count	RB_count	Hypertension	Diabetes	CAD	Appetite	Pedal_edema	Anemia	Class
 2	62	80	1.01	2	3	normal	normal	notpresent	notpresent	423	53	1.8	138	4.4	9.6	31	7500	4.8	no	yes	no	poor	no	yes	ckd
 3	48	70	1.005	4	0	normal	abnormal	present	notpresent	117	56	3.8	111	2.5	11.2	32	6700	3.9	yes	no	no	poor	yes	yes	ckd
 4	51	80	1.01	2	0	normal	normal	notpresent	notpresent	106	26	1.4	138	4.4	11.6	35	7300	4.6	no	no	no	good	no	no	ckd
