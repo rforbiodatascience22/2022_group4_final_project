@@ -235,13 +235,43 @@ plot(hemo_pvc_plot)
 # Write data --------------------------------------------------------------
 #write_tsv(...)
 
-ggsave("hemo_pcv_relationship.png", path = "figures" , plot = hemo_pvc_plot, width = 8, height = 5)
-ggsave("cor_heatmap.png", path = "figures" , plot = cor_heatmap, width = 8, height = 5)
-ggsave("age_distribution.png", path = "figures/distributions" , plot = age_distribution)
-ggsave("disease_no_association.png", path = "figures/" , plot = disease_no)
-ggsave ("which_disease.png" , path = "figures/distributions" , plot = find_disease)
-ggsave ("infection.png" , path = "figures/distributions" , plot = find_infection)
-ggsave ("WC.png" , path = "figures/distributions" , plot = wc)
-ggsave ("diabetes_glucose_level.png" , path = "figures/distributions" , plot = diabetes)
-ggsave ("redblood.png" , path = "figures" , plot = red_blood)
+ggsave("hemo_pcv_relationship.png", 
+       path = "figures" , 
+       plot = hemo_pvc_plot, 
+       width = 8, 
+       height = 5)
+
+ggsave("cor_heatmap.png", 
+       path = "figures" , 
+       plot = cor_heatmap, 
+       width = 8, 
+       height = 5)
+
+ggsave("age_distribution.png", 
+       path = "figures/distributions" , 
+       plot = age_distribution)
+
+ggsave("disease_no_association.png",
+       path = "figures/" , 
+       plot = disease_no)
+
+ggsave ("which_disease.png" , 
+        path = "figures/distributions" ,
+        plot = find_disease)
+
+ggsave ("infection.png" ,
+        path = "figures/distributions" , 
+        plot = find_infection)
+
+ggsave ("WC.png" , 
+        path = "figures/distributions" , 
+        plot = wc)
+
+ggsave ("diabetes_glucose_level.png" , 
+        path = "figures/distributions" , 
+        plot = diabetes)
+
+ggsave ("redblood.png" , 
+        path = "figures" ,
+        plot = red_blood)
 

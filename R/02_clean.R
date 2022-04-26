@@ -17,12 +17,19 @@ my_data = read_csv(file = "data/01_my_data.csv")
 ## Plot missing values ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 missing_values = my_data %>% 
         summarize_all(funs(sum(is.na(.)) * 100 / length(.))) %>% 
-        pivot_longer(!id,names_to="columns", values_to="missing_data") %>% 
-        select(columns, missing_data) %>% 
+        pivot_longer(!id, 
+                     names_to="columns", 
+                     values_to="missing_data") %>% 
+        select(columns, 
+               missing_data) %>% 
         arrange(desc(missing_data)) %>% 
-        ggplot(aes(x = reorder(columns,desc(missing_data)), y = missing_data)) +
+        ggplot(aes(x = reorder(columns,
+                               desc(missing_data)), 
+                   y = missing_data)) +
         geom_col() +
-        theme(axis.text.x = element_text(angle = 45,vjust = 1, hjust = 1)) +
+        theme(axis.text.x = element_text(angle = 45,
+                                         vjust = 1, 
+                                         hjust = 1)) +
         xlab('Attributes') +
         ylab('Missing data')
 
@@ -39,7 +46,7 @@ my_data_clean = my_data_clean %>%
   mutate_if(is.numeric , 
             function(x) ifelse(is.na(x) , 
                                median(x , 
-                                      na.rm = T) , 
+                                      na.rm = T), 
                                x))
 
 
@@ -49,15 +56,8 @@ my_data_clean = my_data_clean %>%
 
 ## Fixing misspelled target variable and cad column----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 my_data_clean = my_data_clean %>% 
-  mutate(
-    classification = ifelse(
-      classification == "ckd\t",
-      "ckd", 
-      classification),
-    cad = ifelse(
-      cad == "\tno",
-      "no", 
-      cad))
+                mutate(classification = ifelse(classification == "ckd\t",  "ckd", classification),
+                cad = ifelse(cad == "\tno","no",cad))
 
 ## Casting chars to categorical variable ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
