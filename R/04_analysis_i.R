@@ -232,6 +232,23 @@ hemo_pvc_plot = my_data_clean %>%
 
 plot(hemo_pvc_plot)
 
+#Serum creatinine and blood urea relationship
+serum_urea_plot = my_data_clean %>% 
+  select(Class, 
+         Blood_urea, 
+         Serum_creatinine) %>% 
+  ggplot(mapping = aes(x = Serum_creatinine, 
+                       y = Blood_urea,
+                       color = Class))+
+  geom_point() +
+  theme_minimal()+
+  labs(x = "Serum creatinine",
+       y = "Blood urea",
+       title = "Relationship between serum creatinine and blood urea")
+plot(serum_urea_plot)
+
+
+
 # Write data --------------------------------------------------------------
 #write_tsv(...)
 
