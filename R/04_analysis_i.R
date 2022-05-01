@@ -1,11 +1,12 @@
 # Load libraries ----------------------------------------------------------
-
+install.packages("hrbrthemes")
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 library(forcats)
 library(reshape)
 library(viridis)
+library(hrbrthemes)
 
 
 # Define functions --------------------------------------------------------
@@ -232,22 +233,30 @@ hemo_pvc_plot = my_data_clean %>%
 
 plot(hemo_pvc_plot)
 
+lm_fit <- lm(my_data_clean ~ Serum_creatinine + Blood_urea , data=df)
+summary(lm_fit)
+
 #Serum creatinine and blood urea relationship
 serum_urea_plot = my_data_clean %>% 
   select(Class, 
          Blood_urea, 
          Serum_creatinine) %>% 
   ggplot(mapping = aes(x = Serum_creatinine, 
-                       y = Blood_urea,
-                       color = Class))+
-  geom_point() +
+                       y = Blood_urea))+
+  geom_point(aes(color = Class, shape = Class), 
+             size = 3, 
+             alpha = 0.7) +
+  geom_smooth(method = "lm", color = "darkgrey") +
   theme_minimal()+
   scale_x_continuous(trans='log10') +
   scale_y_continuous(trans='log10')+
   labs(x = "Serum creatinine",
        y = "Blood urea",
-       title = "Relationship between serum creatinine and blood urea")
+       title = "Relationship between serum creatinine and blood urea",
+       subtitle = "ckd - Chronic Kidney Disease, notckd = Healthy",
+       )
 plot(serum_urea_plot)
+
 
 
 
