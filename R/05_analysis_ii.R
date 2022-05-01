@@ -25,8 +25,6 @@ my_data_clean_aug = my_data_clean_aug %>%
   select(!c(Disease_type, Age_group)) %>% 
   mutate_if(is.character, as.factor)
 
-
-
 data_split = initial_split(my_data_clean_aug, prop = 0.7, strata = Class)
 training_data = training(data_split)
 testing_data = testing(data_split)
@@ -42,18 +40,22 @@ mdl_recipe = training(data_split) %>%
 
 # Metrics ------------------------------------------------------------
 
-
 c_metrics = metric_set(accuracy,
                        sens,
                        yardstick::spec,
                        roc_auc)        
 
 # Modelling ------------------------------------------------------------
+lr_clf = logistic_reg() %>%
+  set_mode("classification") %>%
+  set_engine("glm")
 
+## K- nearest_neighbors
 knn_clf = nearest_neighbor(neighbors = tune()) %>% 
   set_mode('classification') %>% 
   set_engine('kknn')
 
+## Tunning parameters
 model_control = control_grid(save_pred = TRUE)
 
 knn_clf_grid = grid_regular(neighbors(),
@@ -65,9 +67,32 @@ knn_clf_tune = tune_grid(
   control = model_control,
   metrics = c_metrics)
 
+## Selecting optimal model parameters
+knn_final_model = workflow() %>% 
+  add_model(nearest_neighbor(neighbors =  knn_clf_tune %>% 
+                               select_best(metric = "roc_auc") %>% 
+                               select(neighbors) %>% 
+                               .[[1]]
+  ) %>%
+    set_mode('classification') %>% 
+    set_engine('kknn')
+  ) %>% 
+  add_recipe(mdl_recipe)
+
+knn_final_res = last_fit(knn_final_model, 
+                         data_split)
+
+# Classification metrics tibble
+knn_final_res %>% 
+  collect_predictions() %>%
+  conf_mat(Class, .pred_class) %>% 
+  summary()
+
 # Estimators visualization ------------------------------------------------------------
 
+## K-nearest neighbors plotting
 
+### Plotting metrics with different neighbors parameter
 knn_metrics = knn_clf_tune %>% 
   collect_metrics() %>% 
   ggplot(aes( x = neighbors,
@@ -82,6 +107,7 @@ knn_metrics = knn_clf_tune %>%
   theme_minimal()
 plot(knn_metrics)
 
+### Plotting metrics with different neighbors parameter in each fold
 knn_metrics_fold = knn_clf_tune %>%
   select(id, .metrics) %>% 
   unnest(.metrics) %>% 
@@ -99,52 +125,40 @@ knn_metrics_fold = knn_clf_tune %>%
   theme(legend.position = "none")
 plot(knn_metrics_fold)
 
-confusion_matrix = knn_clf_tune %>% 
-  collect_predictions() %>% 
+### Confusion matrix plotting
+plot_cf_mat = final_res %>% 
+  collect_predictions() %>%
   conf_mat(Class, .pred_class) %>% 
   print() %>% 
   tidy() %>% 
-  ggplot(aes(x = Truth,
-             y = Prediction,
-             fill = n)) +
-  geom_tile() +
-  geom_text(aes(label = n), 
-            color = "white", 
-            size = 4) +
-  scale_fill_viridis(alpha = 0.85) +
-  xlab('Truth') +
-  ylab('Prediction') + 
-  labs(title = "Confusion matrix") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   vjust = 1,
-                                   hjust = 1,
-                                   size = 12),
-        axis.text.y = element_text(size = 12),
-        panel.grid.major = element_blank(),
-        panel.border = element_blank(),
-        panel.background = element_blank(),
-        legend.position = "none")
-plot(confusion_matrix)
+  mutate(Values = n) %>% 
+  select(!n) %>% 
+  plot_cf_matrix()
 
-knn_metrics = knn_clf_tune %>% 
-  collect_predictions() %>% 
-  conf_mat(Class, .pred_class) %>% 
-  summary() %>% 
-  select(-detection_prevalence) %>% 
-  ggplot(aes(x = reorder(.metric,
-                         .estimate),
-             y = .estimate)) +
-  geom_col() +
-  geom_hline(yintercept = 0.95,
-             linetype="dashed", 
-             color = "red",
-             size = 1.5) + 
-  theme(axis.text.x = element_text(size = 12),
-        axis.text.y = element_text(size = 12)) +
-  xlab('') +
-  ylab('Estimator value') +
-  ggtitle('KNN classifier test performance') +
-  coord_flip()
+### Plotting normalized confusion matrix
+plot_cf_mat_normalized = knn_final_res %>% 
+  normalize_cf_matrix() %>% 
+  plot_cf_matrix()
+
+# knn_metrics = knn_clf_tune %>% 
+#   collect_predictions() %>% 
+#   conf_mat(Class, .pred_class) %>% 
+#   summary() %>% 
+#   select(-detection_prevalence) %>% 
+#   ggplot(aes(x = reorder(.metric,
+#                          .estimate),
+#              y = .estimate)) +
+#   geom_col() +
+#   geom_hline(yintercept = 0.95,
+#              linetype="dashed", 
+#              color = "red",
+#              size = 1.5) + 
+#   theme(axis.text.x = element_text(size = 12),
+#         axis.text.y = element_text(size = 12)) +
+#   xlab('') +
+#   ylab('Estimator value') +
+#   ggtitle('KNN classifier test performance') +
+#   coord_flip()
 
 #   ggplot(aes(x = name,
 #              y = name,
@@ -201,8 +215,8 @@ knn_metrics = knn_clf_tune %>%
 #ggsave("class_distribution.png", path = "figures" , plot = y_distr, width = 4, height = 3)
 ggsave("knn_clf_metrics.png", path = "figures" , plot = knn_metrics, width = 6, height = 4)
 ggsave("knn_clf_metrics_fold.png", path = "figures" , plot = knn_metrics_fold, width = 6, height = 4)
-ggsave("knn_confusion_matrix.png", path = "figures" , plot = confusion_matrix, width = 6, height = 6)
-
+ggsave("knn_confusion_matrix.png", path = "figures" , plot = plot_cf_mat, width = 6, height = 6)
+ggsave("knn_confusion_matrix_normalized.png", path = "figures" , plot = plot_cf_mat_normalized, width = 6, height = 6)
 
 
 write_tsv(...)
