@@ -7,6 +7,7 @@ library(forcats)
 library(reshape)
 library(viridis)
 library(hrbrthemes)
+library(forcats)
 
 
 # Define functions --------------------------------------------------------
@@ -44,9 +45,33 @@ my_data_clean_aug_diabetes = my_data_clean_aug %>%
          Class) %>%
   filter(Class == "ckd")
 
-
+NAs_progress = data.frame(step = c("Raw_data", "Replacing NAs (numerical)","Dropping NAs (categorical)"), size = c(400.001, 400, 233), variable_name = c("my_data", "my_data_clean", "my_data_clean"), percent = c(1,1,0.58))
+NAs_progress = as.tibble(NAs_progress)
 
 # Visualize data ----------------------------------------------------------
+
+#Cleaning progress
+
+
+
+# Reverse side
+cleaning_plot = NAs_progress  %>% 
+  mutate(step = fct_reorder(step, size)) %>%
+  ggplot(aes(x=step, 
+             y=size, 
+             fill = variable_name,
+             label=scales::percent(percent))) +
+  geom_bar(stat="identity", alpha=.6, width=.4) +
+  coord_flip() +
+  xlab("") +
+  theme_bw() +
+  geom_text(nudge_y= -50,
+            color="white",
+            size = 5,
+            fontface="bold") +
+  labs(y = "Number of observations in the dataset",
+    title = "Data cleaning process")
+
 
 ## Correlation heatmap
 
@@ -258,10 +283,16 @@ serum_urea_plot = my_data_clean %>%
 plot(serum_urea_plot)
 
 
+#Funnel plot 
 
 
 # Write data --------------------------------------------------------------
 #write_tsv(...)
+ggsave("cleaning_plot.png", 
+       path = "figures" , 
+       plot = cleaning_plot, 
+       width = 8, 
+       height = 5)
 
 ggsave("creatinine_urea_relationship.png", 
        path = "figures" , 
