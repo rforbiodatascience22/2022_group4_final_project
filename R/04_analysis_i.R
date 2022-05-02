@@ -243,7 +243,7 @@ serum_urea_plot = my_data_clean %>%
          Serum_creatinine) %>% 
   ggplot(mapping = aes(x = Serum_creatinine, 
                        y = Blood_urea))+
-  geom_point(aes(color = Class, shape = Class), 
+  geom_point(aes(color = Class), 
              size = 3, 
              alpha = 0.7) +
   geom_smooth(method = "lm", color = "darkgrey") +
@@ -262,6 +262,12 @@ plot(serum_urea_plot)
 
 # Write data --------------------------------------------------------------
 #write_tsv(...)
+
+ggsave("creatinine_urea_relationship.png", 
+       path = "figures" , 
+       plot = serum_urea_plot, 
+       width = 8, 
+       height = 5)
 
 ggsave("hemo_pcv_relationship.png", 
        path = "figures" , 
