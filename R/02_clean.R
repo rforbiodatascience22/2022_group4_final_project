@@ -1,10 +1,13 @@
 # Libraries ---------------------------------------------------------------
 install.packages("reshape")
 install.packages("viridis")
+install.packages("hrbrthemes")
 library(tidyverse)
 library(viridis)
 library(reshape)
 library(tidyverse)
+library(hrbrthemes)
+
 # Functions ---------------------------------------------------------------
 
 source(file = "R/99_project_functions.R")
@@ -15,6 +18,7 @@ source(file = "R/99_project_functions.R")
 my_data = read_csv(file = "data/01_my_data.csv")
 
 ## Plot missing values ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 missing_values = my_data %>% 
         summarize_all(funs(sum(is.na(.)) * 100 / length(.))) %>% 
         pivot_longer(!id, 
@@ -27,6 +31,7 @@ missing_values = my_data %>%
                                desc(missing_data)), 
                    y = missing_data)) +
         geom_col() +
+        theme_bw() +
         theme(axis.text.x = element_text(angle = 45,
                                          vjust = 1, 
                                          hjust = 1)) +
@@ -35,9 +40,10 @@ missing_values = my_data %>%
 
 
 ## Casting numbers treaed as chars to dtpýpe numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 my_data_clean = my_data %>% 
-  mutate(pcv = as.numeric(pcv),
-         wc = as.numeric(wc),
+  mutate(pcv = as.numeric(pcv) ,
+         wc = as.numeric(wc) ,
          rc = as.numeric(rc))
 
 
@@ -46,15 +52,17 @@ my_data_clean = my_data_clean %>%
   mutate_if(is.numeric , 
             function(x) ifelse(is.na(x) , 
                                median(x , 
-                                      na.rm = T), 
+                                      na.rm = T) , 
                                x))
 
 
 ## Dropping missing values in categorical columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 my_data_clean = my_data_clean %>% 
   na.omit()
 
 ## Fixing misspelled target variable and cad column----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 my_data_clean = my_data_clean %>% 
                 mutate(classification = ifelse(classification == "ckd\t",  "ckd", classification),
                 cad = ifelse(cad == "\tno","no",cad))
@@ -101,10 +109,12 @@ my_data_clean <- as_tibble(my_data_clean) %>%
 
 
 ## Write data ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 write_tsv(x = my_data_clean,
           file = "data/02_my_data_clean.tsv")
 
 ## Write plots ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ggsave("missing_values.png", path = "figures" , plot = missing_values)
 
 

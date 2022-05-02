@@ -11,13 +11,20 @@ date: '2022-05-01'
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+install.packages("png")
+library(png)
 ```
 
 ## Introduction
 
 
 
-## Materials and Methods
+## Materials and Methods 
+
+- Cleaning and augmenting
+- Data exploration
+- Data analysis
+- Modelling
 
 ## Materials and Methods | The Dataset
 - Dataset was obtained from UCI Machine Learning Depository
@@ -52,6 +59,34 @@ knitr::opts_chunk$set(echo = FALSE)
 - class
 
 </div>
+
+## Data loading, cleaning and augmentation
+
+- insert progress plot here
+- missing values plot
+- specify added variables
+
+## Data exploration
+
+```{r}
+
+img<-readPNG("figures/distributions/age_distribution.png")
+
+```
+
+
+- ckd and not ckd distrb
+- disease association ??
+- hemo_pcv association + red_blood
+- hemoglobin and albumin
+- relationship blood urea serum creatine -> biological meaning
+
+- Corellation heatmap -> take out age_group and disease no
+
+
+## Data analysis | PCA and K-nearest neighbours
+
+## Modelling | Linear regression and Finding the most optimal model
 
 ## Results
 

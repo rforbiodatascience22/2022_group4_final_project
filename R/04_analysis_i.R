@@ -51,7 +51,9 @@ my_data_clean_aug_diabetes = my_data_clean_aug %>%
 ## Correlation heatmap
 
 cor_heatmap = my_data_clean_aug %>% 
-              select(-Class, 
+              select(!Disease_no) %>%
+              select(!Age_group) %>%
+              select(-Class ,
                      everything()) %>% 
               select(!Disease_type) %>% 
               mutate_if(is.factor, as.numeric) %>%  # Converting factors to numerical on the spot
@@ -67,6 +69,7 @@ cor_heatmap = my_data_clean_aug %>%
                      geom_text(aes(label = value), 
                                color = "white", 
                                size = 1.7) +
+                     theme_bw()+
                      scale_fill_viridis(alpha = 0.85) +
                      xlab('') +
                      ylab('') + 
@@ -92,16 +95,19 @@ age_distribution =  my_data_clean_aug %>%
                     ggplot(mapping = aes(x = Age_group,
                            fill = Class)) +
                            geom_bar(binwidth = 2) +
-                           labs( x = "Age",
+                           labs( x = "Age group",
                                  y = "count",
-                                 title = "Distribution of patients' Agegroupped by CKD and no CKD") +
+                                 title = "Distribution of age grouppes for patients with/without CKD") +
                            scale_fill_manual(values = c("#69b3a2", 
-                                                        "#404080"))
+                                                        "#404080")) +
+                    theme_bw()
+  
   
 
 plot(age_distribution)
 
 ##disease presence besides ckd
+
 disease_no = ggplot(my_data_clean_aug_disease, 
                     mapping = aes(x = Disease_no)) +
                     geom_histogram()+
