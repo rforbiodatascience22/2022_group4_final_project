@@ -1,7 +1,7 @@
 ---
 title: "Chronic Kidney Disease"
 subtitle: "Group 4 Project"
-author: "M. Vojtková, M. Hizanu, B. Zimon, S. Rodopoulos"
+author: "M. Vojtková, M. Hizanu, B. Zimoń, S. Rodopoulos"
 output: 
   ioslides_presentation:
     widescreen: true
@@ -24,7 +24,6 @@ knitr::opts_chunk$set(echo = FALSE)
 - 400 observations of 25 attributes: 
 
 <div class="columns-2">
-  ![](image.png)
   
 -  age
 - blood pressure
