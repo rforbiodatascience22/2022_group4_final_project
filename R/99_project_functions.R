@@ -1,43 +1,30 @@
 # Define project functions ------------------------------------------------
+plot_roc = function(sens_spec_df, title){
+    roc_plot = sens_spec_df %>% 
+    filter(.metric %in% c('sens',
+                        'spec')
+           ) %>% 
+    pivot_wider(values_from = .estimate,
+                names_from = .metric) %>% 
+    rbind(tibble(sens = c(0.001,
+                          1.001), 
+                 spec = c(1.001,
+                          0.001))
+          ) %>%
+    ggplot(aes(x = 1-spec,
+               y = sens)
+           ) + 
+    geom_line() +
+    xlab('1 - Specyficity') +
+    ylab('Sensitivity') +
+    ggtitle(title) +
+    theme_minimal() 
+    return(roc_plot)
+}
 
-fit_predict_visualize = function(mdl_worflow,data_split) {
-  
-  mdl_fit = last_fit(mdl_worflow,
-                     data_split)
-  
-  metrics_mdl_fit = mdl_fit %>% 
-    collect_predictions() %>% 
-    conf_mat(Class, 
-             .pred_class) %>% 
-    summary() %>% print()
-  
-  
-  ### mdl_fit ROC CURVE
-  
-  mdl_fit %>% 
-    select(.predictions) %>% 
-    unnest(cols = .predictions) %>%
-    roc_curve(Class, .pred_ckd) %>% autoplot()
-  
-  ### AUC values
-  AUC_mdl_fit = mdl_fit %>% 
-    select(.predictions) %>% 
-    unnest(cols = .predictions) %>%
-    roc_auc(Class, .pred_ckd) %>%
-    select(.estimate) %>% 
-    .[[1]] %>% 
-    round(3)
-
-  return(tibble(mdl = mdl_fit, 
-                metrics = metrics_mdl_fit,
-                AUC = AUC_mdl_fit))
-  }
-
-
-normalize_cf_matrix = function(fited_model) {
-  cf_mat_normalized = fited_model %>% 
-    collect_predictions() %>% 
-    conf_mat(Class, .pred_class) %>% 
+normalize_cf_matrix = function(conf_mat) {
+  cf_mat_normalized = 
+    conf_mat %>% 
     tidy() %>% 
     mutate(Truth = c('ckd','ckd','notckd','notckd'),
            Prediction = c('ckd','notckd','ckd','notckd'),
@@ -69,9 +56,9 @@ plot_cf_matrix = function (cf_mat, title) {
                                      size = 12),
           axis.text.y = element_text(size = 12),
           panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
           panel.border = element_blank(),
           panel.background = element_blank(),
           legend.position = "none")
-  plot(confusion_matrix)
   return(confusion_matrix)
 }
