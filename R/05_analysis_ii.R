@@ -27,19 +27,18 @@ print(paste0('Number of attributes after augmentation: ',
 
 # Preprocessing ------------------------------------------------------------
 
-my_data_clean_aug = my_data_clean_aug %>%
-  select(!c(Disease_type, Age_group)) %>% 
+my_data_clean_aug_mod = my_data_clean_aug %>%
+  select(!c(ID, Disease_type, Age_group)) %>% 
   mutate_if(is.character, as.factor)
 
-data_split = initial_split(my_data_clean_aug, prop = 0.7, strata = Class)
+data_split = initial_split(my_data_clean_aug_mod, prop = 0.7, strata = Class)
 training_data = training(data_split)
 testing_data = testing(data_split)
 
 kfold = vfold_cv(training_data, v = 10)
 
-mdl_recipe= training(data_split) %>% 
+mdl_recipe= training_data %>% 
   recipe(Class ~.) %>% # Model Class(y) as the function of all other calls
-  step_rm(ID) %>% # id should not be random it will be deleted
   step_range(all_numeric(), -all_outcomes()) %>% #Each column will have mean of 0
   step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) %>% # One hot encoding all categorical attributes
   prep()
@@ -74,45 +73,38 @@ metrics_lin_reg1 = lin_reg1_fit %>%
   conf_mat(Class,
            .pred_class) %>%
   summary() %>% 
-  print()
+  select(-.estimator) %>% 
+  add_row(lin_reg1_fit %>%
+            select(.predictions) %>%
+            unnest(cols = .predictions) %>%
+            roc_auc(Class, .pred_ckd) %>%
+            select(.estimate) %>% 
+            mutate(.metric = 'auc')
+          ) %>% 
+  mutate(mdl = 'lm - all cols')
 
-### lin_reg1_fit ROC CURVE
-
-lin_reg1_fit %>%
-  select(.predictions) %>%
-  unnest(cols = .predictions) %>%
-  roc_curve(Class, .pred_ckd) %>% autoplot(title = "Linear regression - all attributes")
-
-### AUC values
-AUC_lin_reg1 = lin_reg1_fit %>%
-  select(.predictions) %>%
-  unnest(cols = .predictions) %>%
-  roc_auc(Class, .pred_ckd) %>%
-  select(.estimate) %>%
-  .[[1]] %>%
-  round(3)
-
-print(paste0('AUC value for linear regression v1: ',AUC_lin_reg1))
+### lin_reg1_fit ROC - in house func for plotting
+roc_lin_reg1 = metrics_lin_reg1 %>%
+  select(-mdl) %>% 
+  plot_roc('ROC for linear regression - all predictors')
+plot(roc_lin_reg1)
 
 ### Plotting normalized confusion matrix
 conf_mat_lin_reg_1 = lin_reg1_fit %>%
+  collect_predictions() %>% 
+  conf_mat(Class, .pred_class) %>% 
   normalize_cf_matrix() %>%
-  plot_cf_matrix(title = "Linear regression - all attributes")
+  plot_cf_matrix(title = "Linear regression - all predictors")
 plot(conf_mat_lin_reg_1)
 
 ## Linear Regression v2 using two attributes---------------------------------------------
-my_data_clean_aug_two_att = my_data_clean_aug %>% select(Packed_cell_vol, Hemoglobin, Class)
-data_split = initial_split(my_data_clean_aug_two_att, prop = 0.7, strata = Class)
-training_data = training(data_split)
-testing_data = testing(data_split)
-kfold = vfold_cv(training_data, v = 10)
-
+training_data = training(data_split) %>% select(Packed_cell_vol, Hemoglobin, Class)
+testing_data = testing(data_split) %>% select(Packed_cell_vol, Hemoglobin, Class)
 
 mdl_2_recipe = training_data %>% 
   recipe(Class ~.) %>% # Model Class(y) as the function of all other calls
   step_range(all_numeric(), -all_outcomes()) %>% #Each column will have mean of 0
   step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) %>% # One hot encoding all categorical attributes
-  #step_pca(all_predictors(), num_comp=30) %>% 
   prep()
 
 print(paste0('Number of attributes ',
@@ -121,51 +113,58 @@ print(paste0('Number of attributes ',
                select(-Class) %>% 
                ncol()))
 
-
 lin_reg2 = workflow() %>% 
   add_model(logistic_reg() %>% 
               set_mode("classification") %>%
               set_engine("glm")) %>% 
   add_recipe(mdl_2_recipe)
 
-lin_reg2_fit = last_fit(lin_reg2,
-                        data_split)
+lin_reg2_fit = fit(lin_reg2,
+                   training_data)
 
+# Metrics 
 metrics_lin_reg2 = lin_reg2_fit %>%
-  collect_predictions() %>%
+  predict(testing_data %>% 
+            select(-Class)) %>% 
+  bind_cols(testing_data) %>%
   conf_mat(Class,
            .pred_class) %>%
   summary() %>% 
-  print()
+  select(!.estimator) %>% 
+  add_row(predict(lin_reg2_fit, 
+                  testing_data %>% 
+                    select(-Class),
+                  type ='prob') %>% 
+          bind_cols(testing_data) %>%
+          roc_auc(Class, .pred_ckd) %>%
+          select(.estimate) %>% 
+          mutate(.metric = 'auc')
+  ) %>% 
+  mutate(mdl = 'lm - hemo and pcv')
 
 ### lin_reg2_fit ROC CURVE
-
-lin_reg2_fit %>%
-  select(.predictions) %>%
-  unnest(cols = .predictions) %>%
-  roc_curve(Class, .pred_ckd) %>% autoplot(title = "Linear regression - hemoglobin and packed cell volume")
-
-### AUC values
-AUC_lin_reg2 = lin_reg2_fit %>%
-  select(.predictions) %>%
-  unnest(cols = .predictions) %>%
-  roc_auc(Class, .pred_ckd) %>%
-  select(.estimate) %>%
-  .[[1]] %>%
-  round(3)
-
-print(paste0('AUC value for linear regression v1: ',AUC_lin_reg2))
+roc_lin_reg2 = lin_reg2_fit %>%
+  predict(testing_data %>% 
+          select(-Class)) %>% 
+  bind_cols(testing_data) %>% 
+  conf_mat(Class, .pred_class) %>% 
+  summary() %>%
+  select(-.estimator) %>% 
+  plot_roc('ROC for linear regression - hemoglobin and packed cell volume')
+plot(roc_lin_reg2)
 
 ### Plotting normalized confusion matrix
 conf_mat_lin_reg_2 = lin_reg2_fit %>%
+  predict(testing_data %>% 
+            select(-Class)) %>% 
+  bind_cols(testing_data) %>%
+  conf_mat(Class,
+           .pred_class) %>%
   normalize_cf_matrix() %>%
   plot_cf_matrix(title = "Linear regression - hemoglobin and packed cell volume")
 plot(conf_mat_lin_reg_2)
 
 ## K- nearest_neighbors------------------------------------------------------------------
-data_split = initial_split(my_data_clean_aug_two_att, prop = 0.7, strata = Class)
-training_data = training(data_split)
-testing_data = testing(data_split)
 kfold = vfold_cv(training_data, v = 10)
 
 mdl_3_recipe = training_data %>% 
@@ -203,15 +202,6 @@ knn_final_model = workflow() %>%
   ) %>% 
   add_recipe(mdl_3_recipe)
 
-knn_final_res = last_fit(knn_final_model, 
-                         data_split)
-
-# Classification metrics tibble
-knn_final_res %>% 
-  collect_predictions() %>%
-  conf_mat(Class, .pred_class) %>% 
-  summary()
-
 ## K-nearest neighbors plotting
 ### Plotting metrics with different neighbors parameter
 knn_tuning = knn_clf_tune %>% 
@@ -246,94 +236,102 @@ knn_metrics_fold = knn_clf_tune %>%
   theme(legend.position = "none")
 plot(knn_metrics_fold)
 
-### Confusion matrix plotting
-plot_knn_cf_mat = knn_final_res %>% 
-  collect_predictions() %>%
+knn_final_res = last_fit(knn_final_model, 
+                         data_split)
+
+#KNN ROC
+roc_knn = knn_final_res %>% 
+  collect_predictions() %>% 
   conf_mat(Class, .pred_class) %>% 
-  print() %>% 
-  tidy() %>% 
-  mutate(Values = n) %>% 
-  select(!n) %>% 
-  plot_cf_matrix('K-nearest neighbors classifier')
+  summary() %>% 
+  select(-.estimator) %>% 
+  plot_roc('ROC K-Nearest Neighbors - hemoglobing and packed cell volume')
+plot(roc_knn)
+
 
 ### Plotting normalized confusion matrix
-plot_knn_cf_mat_normalized = knn_final_res %>% 
+conf_mat_knn = knn_final_res %>% 
+  collect_predictions() %>% 
+  conf_mat(Class, .pred_class) %>% 
   normalize_cf_matrix() %>% 
   plot_cf_matrix('K-nearest neighbors - hemoglobin and packed cell volume')
+plot(conf_mat_knn)
 
-# knn_metrics = knn_clf_tune %>% 
-#   collect_predictions() %>% 
-#   conf_mat(Class, .pred_class) %>% 
-#   summary() %>% 
-#   select(-detection_prevalence) %>% 
-#   ggplot(aes(x = reorder(.metric,
-#                          .estimate),
-#              y = .estimate)) +
-#   geom_col() +
-#   geom_hline(yintercept = 0.95,
-#              linetype="dashed", 
-#              color = "red",
-#              size = 1.5) + 
-#   theme(axis.text.x = element_text(size = 12),
-#         axis.text.y = element_text(size = 12)) +
-#   xlab('') +
-#   ylab('Estimator value') +
-#   ggtitle('KNN classifier test performance') +
-#   coord_flip()
+# Classification metrics tibble
+metrics_knn = knn_final_res %>% 
+  collect_predictions() %>%
+  conf_mat(Class, .pred_class) %>% 
+  summary() %>% 
+  select(!.estimator) %>% 
+  add_row(knn_final_res %>% 
+            collect_predictions() %>% 
+            roc_auc(Class, .pred_ckd) %>%
+            select(.estimate) %>% 
+            mutate(.metric = 'auc')
+  ) %>% 
+  mutate(mdl = 'knn')
 
-#   ggplot(aes(x = name,
-#              y = name,
-#              fill = value)) +
-#   geom_tile() +
-#   geom_text(aes(label = value), 
-#             color = "white", 
-#             size = 1.7) +
-#   scale_fill_viridis(alpha = 0.85) +
-#   xlab('') +
-#   ylab('') + 
-#   labs(title = "Confusion matrix") +
-#   theme(axis.text.x = element_text(angle = 45,
-#                                    vjust = 1,
-#                                    hjust = 1),
-#         axis.title.x = element_blank(),
-#         axis.title.y = element_blank(),
-#         panel.grid.major = element_blank(),
-#         panel.border = element_blank(),
-#         panel.background = element_blank())
-# plot(cor_heatmap)
+all_metrics = rbind(metrics_lin_reg1, 
+      metrics_lin_reg2) %>% 
+  rbind(metrics_knn)
 
 
-# rf_clf = rand_forest(trees = 100) %>%
-#   set_mode('Class') %>%
-#   set_engine("randomForest")
-# 
-# model_rf %>%
-#   predict(test) %>%
-#   bind_cols(test) %>%
-#   metrics(truth = Class, estimate = .pred_class)
-# 
-# rf_proba = model_rf %>%
-#             predict(test) %>%
-#             bind_cols(test, type = "proba") %>%
-#             glimpse()
-# 
-# rf_proba%>%
-#   gain_curve(Class, .pred_class) %>%
-#   glimpse()
-# 
-# glimpse(model_rf)
+metrics_summary =  all_metrics %>% filter(.metric %in% c('auc',
+                      'sens',
+                      'spec',
+                      'accuracy')) %>% 
+  ggplot(aes( x = reorder(mdl, .estimate),
+              y = .estimate,
+              group = 1)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~.metric,
+             scales = "free_y") +
+  xlab('Models') +
+  ylab('Estimate test score') + 
+  ggtitle('Performance of different models') +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  theme_minimal()
+plot(metrics_summary)
 
-
-#Feature importance extraction
-#https://www.tidymodels.org/start/case-study/
-
-# Visualize data ----------------------------------------------------------
-
-#my_data_clean_aug %>% ...
-
-
-# Write data --------------------------------------------------------------
-#ggsave("class_distribution.png", path = "figures" , plot = y_distr, width = 4, height = 3)
+roc_all = all_metrics %>% 
+  filter(.metric %in% c('sens',
+                        'spec')) %>% 
+  pivot_wider(values_from = .estimate,
+              names_from = .metric) %>% 
+  rbind(
+    tibble(sens = c(0.001,
+                  1.001,
+                  0.001,
+                  1.001,
+                  0.001,
+                  1.001), 
+         spec = c(1.001,
+                  0.001,
+                  1.001,
+                  0.001,
+                  1.001,
+                  0.001),
+         mdl = c('lm - all cols',
+                'lm - all cols',
+                'lm - hemo and pcv',
+                'lm - hemo and pcv',
+                'knn',
+                'knn')
+         )
+  ) %>% 
+  ggplot(aes(x = 1-spec,
+             y = sens)
+  ) + 
+  geom_line(aes(linetype = mdl)) +
+  xlab('1 - Specificity') +
+  ylab('Sensitivity') +
+  ggtitle('Combined ROC of the trained models') +
+  labs(linetype = 'Models') +
+  theme_minimal()
+  
+# Saving plots--------------------------------------------------------------
 
 ggsave("lin_reg1_confusion_matrix_normalized.png",
        path = "figures/modeling" , 
@@ -345,6 +343,11 @@ ggsave("lin_reg2_confusion_matrix_normalized.png",
        plot = conf_mat_lin_reg_2,
        width = 6, 
        height = 6)
+ggsave("knn_confusion_matrix_normalized.png",
+       path = "figures/modeling",
+       plot = conf_mat_knn,
+       width = 6,
+       height = 6)
 ggsave("knn_clf_tuning_fold.png",
        path = "figures/modeling" ,
        plot = knn_metrics_fold,
@@ -355,16 +358,29 @@ ggsave("knn_clf_tuning_mean.png",
        plot = knn_tuning,
        width = 6,
        height = 4)
-ggsave("knn_confusion_matrix.png",
-       path = "figures/modeling", 
-       plot = plot_knn_cf_mat,
+ggsave("roc_knn.png",
+       path = "figures/modeling" ,
+       plot = roc_knn,
        width = 6,
-       height = 6)
-ggsave("knn_confusion_matrix_normalized.png",
-       path = "figures/modeling",
-       plot = plot_knn_cf_mat_normalized,
+       height = 4)
+ggsave("roc_lin_reg1.png",
+       path = "figures/modeling" ,
+       plot = roc_lin_reg1,
        width = 6,
-       height = 6)
+       height = 4)
+ggsave("roc_lin_reg2.png",
+       path = "figures/modeling" ,
+       plot = roc_lin_reg2,
+       width = 6,
+       height = 4)
+ggsave("roc_all.png",
+       path = "figures/modeling" ,
+       plot = roc_all,
+       width = 6,
+       height = 4)
+ggsave("metrics_summary.png",
+       path = "figures/modeling" ,
+       plot = metrics_summary,
+       width = 6,
+       height = 4)
 
-write_tsv(...)
-ggsave(...)
