@@ -3214,7 +3214,7 @@ slide:not(.current) .plotly.html-widget{
 </article></slide><slide class=""><hgroup><h2>Materials and Methods</h2></hgroup><article  id="materials-and-methods" class="smaller ">
 
 <ul>
-<li>Cleaning</li>
+<li>Cleaning and augmenting</li>
 <li>Data exploration</li>
 <li>Data analysis</li>
 <li>Modelling</li>
@@ -3224,46 +3224,25 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>Dataset was obtained from UCI Machine Learning Depository</li>
-<li>400 observations of 25 attributes:</li>
+<li><strong>400 observations of 25 attributes</strong>:
+
+<ul>
+<li><p>numerical (15): age, blood pressure, specific gravity, albumin, sugar, blood glucose random, blood urea, serum creatinine, sodium, potassium, hemoglobin, packed cell volume, white blood cell count, red blood cell count</p></li>
+<li><p>categorical (10): red blood cells, pus cell, pus cell clumps, bacteria, hypertension, diabetes mellitus, coronary artery disease, appetite, pedal edema, anemia, class</p></li>
+</ul></li>
 </ul>
 
-<div class="columns-2">
-<ul>
-<li>age</li>
-<li>blood pressure</li>
-<li>specific gravity</li>
-<li>albumin</li>
-<li>sugar</li>
-<li>red blood cells</li>
-<li>pus cell</li>
-<li>pus cell clumps</li>
-<li>bacteria</li>
-<li>blood glucose random</li>
-<li>blood urea</li>
-<li>serum creatinine</li>
-<li>sodium</li>
-<li>potassium</li>
-<li>hemoglobin</li>
-<li>packed cell volume</li>
-<li>white blood cell count</li>
-<li>red blood cell count</li>
-<li>hypertension</li>
-<li>diabetes mellitus</li>
-<li>coronary artery disease</li>
-<li>appetite</li>
-<li>pedal edema</li>
-<li>anemia</li>
-<li>class</li>
-</ul></div>
-
-</article></slide><slide class=""><hgroup><h2>Data loading cleaning</h2></hgroup><article  id="data-loading-cleaning" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Data loading, cleaning and augmentation</h2></hgroup><article  id="data-loading-cleaning-and-augmentation" class="smaller ">
 
 <ul>
 <li>insert progress plot here</li>
 <li>missing values plot</li>
+<li>specify added variables <img src='figures/creatinine_urea_relationship.png' title=''/></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Data exploration</h2></hgroup><article  id="data-exploration" class="smaller ">
+
+<img width="500px" src='figures/creatinine_urea_relationship.png' title=''/>
 
 <ul>
 <li><p>ckd and not ckd distrb</p></li>
