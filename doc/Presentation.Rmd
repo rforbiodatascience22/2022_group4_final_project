@@ -48,7 +48,6 @@ library(png)
 
 ------------------------------------------------------------------------
 
-
 ::: centered
 ![](images/cleaning_plot-01.png){width="750"}
 :::
@@ -81,6 +80,13 @@ library(png)
 
 ## Data analysis \| PCA and K-nearest neighbours
 
-## Modelling \| Linear regression and Finding the most optimal model
+## Modelling \| Linear regression - all parameters
+
+![](images/roc_lin_reg1.png){width="500"} ![](images/lin_reg1_confusion_matrix_normalized.png){width="400"}
+
+## Modelling \| Linear regression - Hemoglobin and PCV
+![](images/roc_lin_reg2.png){width="500"} ![](images/lin_reg2_confusion_matrix_normalized.png){width="400"}
+
+
 
 ## Discussion
