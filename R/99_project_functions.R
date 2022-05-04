@@ -18,7 +18,7 @@ plot_roc = function(sens_spec_df, title){
     xlab('1 - Specificity') +
     ylab('Sensitivity') +
     ggtitle(title) +
-    theme_minimal() 
+    theme_grey(base_size = 13) 
     return(roc_plot)
 }
 
@@ -37,7 +37,7 @@ normalize_cf_matrix = function(conf_mat) {
 }
 
 
-plot_cf_matrix = function (cf_mat, title) {
+plot_cf_matrix = function (cf_mat, title, subtitle) {
   confusion_matrix = cf_mat %>% 
     ggplot(aes(x = Truth,
                y = Prediction,
@@ -45,11 +45,12 @@ plot_cf_matrix = function (cf_mat, title) {
     geom_tile() +
     geom_text(aes(label = Values), 
               color = "white", 
-              size = 4) +
-    scale_fill_viridis(alpha = 0.85) +
+              size = 7) +
+    scale_fill_viridis(alpha = 0.7) +
     xlab('Truth') +
     ylab('Prediction') + 
-    labs(title = title) +
+    labs(title = title, 
+         subtitle = subtitle) +
     theme(axis.text.x = element_text(angle = 45,
                                      vjust = 1,
                                      hjust = 1,

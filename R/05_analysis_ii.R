@@ -86,7 +86,8 @@ metrics_lin_reg1 = lin_reg1_fit %>%
 ### lin_reg1_fit ROC - in house func for plotting
 roc_lin_reg1 = metrics_lin_reg1 %>%
   select(-mdl) %>% 
-  plot_roc('ROC for linear regression - all predictors')
+  plot_roc('ROC for linear regression - all predictors') +
+  theme_grey(base_size = 13) 
 plot(roc_lin_reg1)
 
 ### Plotting normalized confusion matrix
@@ -94,7 +95,8 @@ conf_mat_lin_reg_1 = lin_reg1_fit %>%
   collect_predictions() %>% 
   conf_mat(Class, .pred_class) %>% 
   normalize_cf_matrix() %>%
-  plot_cf_matrix(title = "Linear regression - all predictors")
+  plot_cf_matrix(title = "Linear regression - all predictors",
+                 subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy")
 plot(conf_mat_lin_reg_1)
 
 ## Linear Regression v2 using two attributes---------------------------------------------
@@ -161,7 +163,9 @@ conf_mat_lin_reg_2 = lin_reg2_fit %>%
   conf_mat(Class,
            .pred_class) %>%
   normalize_cf_matrix() %>%
-  plot_cf_matrix(title = "Linear regression - hemoglobin and packed cell volume")
+  plot_cf_matrix(title = "Linear regression - hemoglobin and packed cell volume", 
+                 subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy") 
+
 plot(conf_mat_lin_reg_2)
 
 ## K- nearest_neighbors------------------------------------------------------------------
@@ -254,7 +258,8 @@ conf_mat_knn = knn_final_res %>%
   collect_predictions() %>% 
   conf_mat(Class, .pred_class) %>% 
   normalize_cf_matrix() %>% 
-  plot_cf_matrix('K-nearest neighbors - hemoglobin and packed cell volume')
+  plot_cf_matrix(title = 'K-nearest neighbors - hemoglobin and packed cell volume',
+                 subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy")
 plot(conf_mat_knn)
 
 # Classification metrics tibble
@@ -289,10 +294,9 @@ metrics_summary =  all_metrics %>% filter(.metric %in% c('auc',
              scales = "free_y") +
   xlab('Models') +
   ylab('Estimate test score') + 
-  ggtitle('Performance of different models') +
-  theme_minimal() +
+  ggtitle('Performance of different training models') +
   theme(legend.position = "none") +
-  theme_minimal()
+  theme_grey(base_size = 13)
 plot(metrics_summary)
 
 roc_all = all_metrics %>% 
@@ -325,11 +329,14 @@ roc_all = all_metrics %>%
              y = sens)
   ) + 
   geom_line(aes(linetype = mdl)) +
+  scale_fill_viridis(discrete = TRUE) +
   xlab('1 - Specificity') +
   ylab('Sensitivity') +
   ggtitle('Combined ROC of the trained models') +
   labs(linetype = 'Models') +
-  theme_minimal()
+  theme_grey(base_size = 13)
+
+plot(roc_all)
   
 # Saving plots--------------------------------------------------------------
 
