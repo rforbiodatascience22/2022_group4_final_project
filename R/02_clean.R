@@ -30,14 +30,16 @@ missing_values = my_data %>%
         ggplot(aes(x = reorder(columns,
                                desc(missing_data)), 
                    y = missing_data)) +
-        geom_col() +
-        theme_bw() +
+        geom_col(fill = '#482677ff', alpha = 0.7) +
+        labs(x = 'Attributes', 
+        y = 'Missing data',
+        title = 'Number of NAs in raw data') +
+        theme_grey(base_size = 13) +
         theme(axis.text.x = element_text(angle = 45,
                                          vjust = 1, 
-                                         hjust = 1)) +
-        xlab('Attributes') +
-        ylab('Missing data')
-
+                                         hjust = 1)) 
+  
+plot(missing_values)
 
 ## Casting numbers treaed as chars to dtpýpe numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -64,8 +66,12 @@ my_data_clean = my_data_clean %>%
 ## Fixing misspelled target variable and cad column----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 my_data_clean = my_data_clean %>% 
-                mutate(classification = ifelse(classification == "ckd\t",  "ckd", classification),
-                cad = ifelse(cad == "\tno","no",cad))
+                mutate(classification = ifelse(classification == "ckd\t",  
+                                                                 "ckd", 
+                                                                  classification),
+                                               cad = ifelse(cad == "\tno",
+                                                                   "no",
+                                                                   cad))
 
 ## Casting chars to categorical variable ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -74,7 +80,8 @@ my_data_clean = my_data_clean %>%
 # Casting was not applied here not to loose the meaning of each of the vars. Encoded labels will be less explenatory at this point.
 
 my_data_clean = my_data_clean %>%
-  mutate_if(is.character, as.factor)
+  mutate_if(is.character, 
+            as.factor)
 
 #Rename Variables
 my_data_clean <- as_tibble(my_data_clean) %>%
@@ -115,7 +122,11 @@ write_tsv(x = my_data_clean,
 
 ## Write plots ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-ggsave("missing_values.png", path = "figures" , plot = missing_values)
+ggsave("missing_values.png", 
+       path = "figures" , 
+       plot = missing_values, 
+       width = 8, 
+       height = 5)
 
 
 

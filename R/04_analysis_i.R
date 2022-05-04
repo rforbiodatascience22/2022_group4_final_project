@@ -279,12 +279,9 @@ hemo_al_plot = my_data_clean %>%
        y = "Hemoglobin (gms)",
        title = "Relationship between hemoglobin and albumin", 
        subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy",
-<<<<<<< HEAD
        fill = "Patient status") +
   theme_grey(base_size = 13)
-=======
-       fill = "Patient status")
->>>>>>> b02100bab815817f3baec82f059abee923731eb3
+
 
 plot(hemo_al_plot)
 
@@ -332,11 +329,8 @@ serum_urea_plot = my_data_clean %>%
        title = "Relationship between serum creatinine and blood urea",
        subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy",
        color = "Patient status") +
-<<<<<<< HEAD
   theme_grey(base_size = 13) 
-=======
-  theme_grey(base_size = 13)
->>>>>>> b02100bab815817f3baec82f059abee923731eb3
+
 
 plot(serum_urea_plot)
 

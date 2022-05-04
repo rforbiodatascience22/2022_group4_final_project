@@ -43,7 +43,14 @@ library(png)
 -   [**Cleaning:**]{.underline}
 
 ::: centered
-![](images/cleaning_plot-01.png){width="600"}
+![](images/missing_values.png){width="600"}
+:::
+
+------------------------------------------------------------------------
+
+
+::: centered
+![](images/cleaning_plot-01.png){width="750"}
 :::
 
 -   [**Augmenting:**]{.underline} Creating new variables *Age_group, Disease_no, Disease_type*
@@ -55,7 +62,6 @@ library(png)
 :::
 
 ------------------------------------------------------------------------
-
 
 ::: centered
 ![](images/hemo_pcv_relationship.png){width="850"}
@@ -73,12 +79,8 @@ library(png)
 ![](images/creatinine_urea_relationship.png){width="850"}
 :::
 
-
 ## Data analysis \| PCA and K-nearest neighbours
 
 ## Modelling \| Linear regression and Finding the most optimal model
 
-
-
 ## Discussion
-
