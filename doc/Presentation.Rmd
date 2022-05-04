@@ -17,6 +17,10 @@ library(png)
 
 ## Introduction
 
+-   **Chronic kidney disease** (**CKD**) is a type of kidney disease in which there is gradual loss of kidney function over a period of months to years
+
+-   The main risk factors for developing kidney disease are diabetes, high blood pressure, heart disease, and a family history of kidney failure
+
 ## Materials and Methods
 
 -   Cleaning and augmenting
@@ -28,9 +32,9 @@ library(png)
 
 -   Dataset was obtained from UCI Machine Learning Depository
 -   **400 observations of 25 attributes**:
-    -   numerical (15): age, blood pressure, specific gravity, albumin, sugar, blood glucose random, blood urea, serum creatinine, sodium, potassium, hemoglobin, packed cell volume, white blood cell count, red blood cell count
+    -   [numerical (15):]{.underline} age, blood pressure, specific gravity, albumin, sugar, blood glucose random, blood urea, serum creatinine, sodium, potassium, hemoglobin, packed cell volume, white blood cell count, red blood cell count
 
-    -   categorical (10): red blood cells, pus cell, pus cell clumps, bacteria, hypertension, diabetes mellitus, coronary artery disease, appetite, pedal edema, anemia, class
+    -   [categorical (10):]{.underline} red blood cells, pus cell, pus cell clumps, bacteria, hypertension, diabetes mellitus, coronary artery disease, appetite, pedal edema, anemia, class
 
 ## Data loading, cleaning and augmentation
 
