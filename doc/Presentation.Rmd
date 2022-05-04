@@ -6,7 +6,7 @@ output:
   ioslides_presentation:
     widescreen: true
     smaller: true
-date: '2022-05-01'
+    logo: images/logo.png
 ---
 
 ```{r setup, include=FALSE}
@@ -38,25 +38,40 @@ library(png)
 
 ## Data loading, cleaning and augmentation
 
--   insert progress plot here
--   missing values plot
--   specify added variables ![](figures/creatinine_urea_relationship.png)
+-   [**Loading**]{.underline}**:** Artificially splitting the dataset to **2 groups:** Healthy patients and patients with CKD
+
+-   [**Cleaning:**]{.underline}
+
+::: centered
+![](images/cleaning_plot-01.png){width="600"}
+:::
+
+-   [**Augmenting:**]{.underline} Creating new variables *Age_group, Disease_no, Disease_type*
 
 ## Data exploration
 
-![](figures/creatinine_urea_relationship.png){width="500px"}
+::: centered
+![](images/cor_heatmap.png){width="800"}
+:::
 
--   ckd and not ckd distrb
+------------------------------------------------------------------------
 
--   disease association ??
 
--   hemo_pcv association + red_blood - ok
+::: centered
+![](images/hemo_pcv_relationship.png){width="850"}
+:::
 
--   hemoglobin and albumin - ok
+------------------------------------------------------------------------
 
--   relationship blood urea serum creatine -\> biological meaning - ok
+::: centered
+![](images/hemo_albumin_relat-01.png){width="850"}
+:::
 
--   Corellation heatmap -\> take out age_group and disease no ok
+------------------------------------------------------------------------
+
+::: centered
+![](images/creatinine_urea_relationship.png){width="850"}
+:::
 
 ## Data analysis \| PCA and K-nearest neighbours
 

@@ -256,7 +256,8 @@ red_blood = my_data_clean_aug %>%
   labs(x = "Hemoglobin level (gms)",
        y = "Red blood cell count (millions/cm)",
        title = "Relationship between hemoglobin and red blood cells count",
-       subtitle = "in patients with/without anemia and with/without CKD")
+       subtitle = "in patients with/without anemia and with/without CKD") +
+  theme_grey(base_size = 13)
 
 plot(red_blood)
 
@@ -277,7 +278,8 @@ hemo_al_plot = my_data_clean %>%
        y = "Hemoglobin (gms)",
        title = "Relationship between hemoglobin and albumin", 
        subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy",
-       fill = "Patient status")
+       fill = "Patient status") +
+  theme_grey(base_size = 13)
 
 plot(hemo_al_plot)
 
@@ -325,7 +327,7 @@ serum_urea_plot = my_data_clean %>%
        title = "Relationship between serum creatinine and blood urea",
        subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy",
        color = "Patient status") +
-  theme_grey(base_size = 13)
+  theme_grey(base_size = 13) 
 
 plot(serum_urea_plot)
 
@@ -353,6 +355,12 @@ ggsave("hemo_pcv_relationship.png",
 ggsave("cor_heatmap.png", 
        path = "figures" , 
        plot = cor_heatmap, 
+       width = 8, 
+       height = 5)
+
+ggsave("hemo_albumin_relat.png", 
+       path = "figures" , 
+       plot = hemo_al_plot, 
        width = 8, 
        height = 5)
 
