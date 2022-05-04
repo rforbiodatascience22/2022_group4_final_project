@@ -50,13 +50,13 @@ library(png)
 
 -   disease association ??
 
--   hemo_pcv association + red_blood
+-   hemo_pcv association + red_blood - ok
 
--   hemoglobin and albumin
+-   hemoglobin and albumin - ok
 
--   relationship blood urea serum creatine -\> biological meaning
+-   relationship blood urea serum creatine -\> biological meaning - ok
 
--   Corellation heatmap -\> take out age_group and disease no
+-   Corellation heatmap -\> take out age_group and disease no ok
 
 ## Data analysis \| PCA and K-nearest neighbours
 
