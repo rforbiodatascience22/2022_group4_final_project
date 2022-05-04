@@ -61,7 +61,6 @@ library(png)
 ![](images/hemo_pcv_relationship.png){width="850"}
 :::
 
-<<<<<<< HEAD
 ------------------------------------------------------------------------
 
 ::: centered
@@ -79,14 +78,7 @@ library(png)
 
 ## Modelling \| Linear regression and Finding the most optimal model
 
-## Results
 
-```{r cars, echo = TRUE}
-summary(cars)
-```
 
 ## Discussion
 
-```{r pressure}
-plot(pressure)
-```
