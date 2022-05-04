@@ -61,6 +61,7 @@ library(png)
 ![](images/hemo_pcv_relationship.png){width="850"}
 :::
 
+<<<<<<< HEAD
 ------------------------------------------------------------------------
 
 ::: centered
@@ -72,6 +73,7 @@ library(png)
 ::: centered
 ![](images/creatinine_urea_relationship.png){width="850"}
 :::
+
 
 ## Data analysis \| PCA and K-nearest neighbours
 
