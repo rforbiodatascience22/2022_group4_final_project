@@ -21,6 +21,8 @@ library(png)
 
 -   The main risk factors for developing kidney disease are diabetes, high blood pressure, heart disease, and a family history of kidney failure
 
+-   The two key markers for CKD are urine albumin and eGFR (based on measuring the stable serum creatinine levels)
+
 ## Materials and Methods
 
 -   Cleaning and augmenting
@@ -30,15 +32,22 @@ library(png)
 
 ## Materials and Methods \| The Dataset
 
--   Dataset was obtained from UCI Machine Learning Depository
+-   The data-set was obtained from UCI Machine Learning Depository
 -   **400 observations of 25 attributes**:
     -   [numerical (15):]{.underline} age, blood pressure, specific gravity, albumin, sugar, blood glucose random, blood urea, serum creatinine, sodium, potassium, hemoglobin, packed cell volume, white blood cell count, red blood cell count
 
-    -   [categorical (10):]{.underline} red blood cells, pus cell, pus cell clumps, bacteria, hypertension, diabetes mellitus, coronary artery disease, appetite, pedal edema, anemia, class
+    -   [categorical (10):]{.underline} red blood cells,<br/> 
+pus cell, pus cell clumps, bacteria,<br/>
+hypertension,diabetes mellitus, <br/>
+coronary artery disease, appetite, <br/>
+pedal edema, anemia, class
+
+<div style= "float:right;position: relative; top: -170px;">
+![](../figures/distributions/age_distribution.png){width="521" height="317"}
 
 ## Data loading, cleaning and augmentation
 
--   [**Loading**]{.underline}**:** Artificially splitting the dataset to **2 groups:** Healthy patients and patients with CKD
+-   [**Loading**]{.underline}**:** Artificially splitting the dataset in **2 groups:** Healthy patients and patients with CKD and then joinning
 
 -   [**Cleaning:**]{.underline}
 
@@ -56,26 +65,40 @@ library(png)
 
 ## Data exploration
 
+-\> relationship between hemoglobin and packed cell volume, hemoglobin and albumin and serum creatinine and blood urea
+
 ::: centered
-![](images/cor_heatmap.png){width="800"}
+![](images/cor_heatmap.png){width="682"}
 :::
 
 ------------------------------------------------------------------------
 
+-   logical association between the two variables (amount of hemoglobin and the volume percentage of red blood cells in blood)
+
+-   visible differentiation of the CKD and non-CKD patients because anemia is a normal complication for this disease (reduction of red blood cells the further the disease progresses)
+
 ::: centered
-![](images/hemo_pcv_relationship.png){width="850"}
+![](images/hemo_pcv_relationship.png){width="627"}
 :::
 
 ------------------------------------------------------------------------
 
+-   shown like this because albumin is measured categorically, where the number displays the number of positive test results for albumin in urine
+
+-   there is proof that albumin is associated with CKD (A healthy kidney doesn't let albumin pass from the blood into the urine)
+
 ::: centered
-![](images/hemo_albumin_relat-01.png){width="850"}
+![](images/hemo_albumin_relat-01.png){width="626"}
 :::
 
 ------------------------------------------------------------------------
 
+-   most common markers for assessing renal function
+
+-   Creatinine and urea blood levels reflect the glomerular filtration rate, which declines exponentially as CKD progresses
+
 ::: centered
-![](images/creatinine_urea_relationship.png){width="850"}
+![](images/creatinine_urea_relationship.png){width="620"}
 :::
 
 ## Data analysis \| PCA and K-nearest neighbours
@@ -85,8 +108,7 @@ library(png)
 ![](images/roc_lin_reg1.png){width="500"} ![](images/lin_reg1_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| Linear regression - Hemoglobin and PCV
+
 ![](images/roc_lin_reg2.png){width="500"} ![](images/lin_reg2_confusion_matrix_normalized.png){width="400"}
-
-
 
 ## Discussion
