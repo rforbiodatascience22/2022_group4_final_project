@@ -63,14 +63,20 @@ var_df %>%
         axis.ticks.x = element_blank())
 
 
-juice(pca_prep) %>%
+pca_plot = juice(pca_prep) %>%
   ggplot(aes(PC1, 
              PC2)) +
-  geom_point(aes(colour = pull(my_data_clean_aug,Class)), 
-             alpha = 0.7, 
-             size = 2) +
-  labs(title = "PCA") + 
-  labs(colour = "Class")
+  geom_point(aes(colour = pull(my_data_clean_aug,
+                               Class)), 
+             alpha = 0.6, 
+             size = 2.5) +
+  scale_color_manual(values = c('#482677ff',
+                               '#36bb75ff')) +
+  labs(title = "PCA",
+       colour = "Class", 
+       subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy")
+
+plot(pca_plot)
   
   
 tidied_pca %>%
@@ -134,10 +140,15 @@ tidied_pca %>%
     ggplot(aes(value, 
                terms, 
                color = terms)) +
-    geom_point(size = 1) +
+    geom_point(size = 2.5) +
     labs(y = NULL) 
 
-
+#------Writing Data------------------------------------------------------------------------
+ggsave ("pca_plot.png" , 
+        path = "figures" ,
+        plot = pca_plot,
+        width = 8, 
+        height = 5)
 
                 
                 
