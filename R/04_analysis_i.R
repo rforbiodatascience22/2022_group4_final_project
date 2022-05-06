@@ -130,7 +130,7 @@ cor_heatmap = my_data_clean_aug %>%
         axis.title.y = element_blank(),
         panel.grid.major = element_blank(),
         panel.border = element_blank(),
-        panel.background = element_blank())
+        panel.background = element_blank()) 
 
 plot(cor_heatmap)
 
@@ -145,7 +145,7 @@ age_distribution =  my_data_clean_aug %>%
   geom_bar(bindwidth = 2, alpha = 0.6) +
   labs(x = "Age group",
       y = "count",
-      title = "Distribution of age grouppes for patients with/without CKD") +
+      title = "Distribution of age groups for patients with/without CKD") +
   scale_fill_manual(values = c('#482677ff',
                                '#36bb75ff')) +
   theme_grey()

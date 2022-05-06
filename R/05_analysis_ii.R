@@ -249,7 +249,7 @@ roc_knn = knn_final_res %>%
   conf_mat(Class, .pred_class) %>% 
   summary() %>% 
   select(-.estimator) %>% 
-  plot_roc('ROC K-Nearest Neighbors - hemoglobing and packed cell volume')
+  plot_roc('ROC K-Nearest Neighbors - hemoglobin and PCV')
 plot(roc_knn)
 
 
@@ -258,7 +258,7 @@ conf_mat_knn = knn_final_res %>%
   collect_predictions() %>% 
   conf_mat(Class, .pred_class) %>% 
   normalize_cf_matrix() %>% 
-  plot_cf_matrix(title = 'K-nearest neighbors - hemoglobin and packed cell volume',
+  plot_cf_matrix(title = 'K-nearest neighbors - hemoglobin and PCV',
                  subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy")
 plot(conf_mat_knn)
 

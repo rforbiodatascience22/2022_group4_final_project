@@ -74,7 +74,8 @@ pca_plot = juice(pca_prep) %>%
                                '#36bb75ff')) +
   labs(title = "PCA",
        colour = "Class", 
-       subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy")
+       subtitle = "Labelling: ckd = sick with chronic kidney disease, notckd = healthy") +
+  theme_grey(base_size = 13)
 
 plot(pca_plot)
   
