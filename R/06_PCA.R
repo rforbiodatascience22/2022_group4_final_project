@@ -8,10 +8,6 @@ library(tidymodels)
 library(ggplot2)
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
-
 # Load data ---------------------------------------------------------------
 my_data_clean_aug <- read_tsv(file = "data/03_my_data_clean_aug.tsv")
 
@@ -65,11 +61,8 @@ juice(pca_prep) %>%
   labs(title="PCA")+ labs(colour = "Class")
   
 
-       
-# TIdymodels
-  
-  
-  tidied_pca <- tidy(pca_prep2, 2)
+    
+
   
   tidied_pca %>%
     filter(component %in% paste0("PC", 1:5)) %>%
