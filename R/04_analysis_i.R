@@ -79,22 +79,19 @@ cleaning_plot = NAs_progress  %>%
                             size)) %>%
   ggplot(aes(x = step, 
              y = size, 
-             fill = variable_name,
              label = scales::percent(percent))) +
-  geom_bar(stat="identity", 
-           alpha=.6, 
-           width=.4) +
+  geom_bar(fill = '#482677ff', 
+           stat="identity", 
+           alpha=0.6, 
+           width=0.4) +
   coord_flip() +
-  scale_fill_manual(values = c('#482677ff',
-                               '#36bb75ff')) +
   geom_text(nudge_y = -50,
             color = "white",
             size = 5,
             fontface = "bold") +
   labs(x = "",
        y = "Number of observations in the dataset",
-       title = "Data cleaning process",
-       fill = "Variable name")+
+       title = "Data cleaning process") +
        theme_grey(base_size = 13) 
 
 plot(cleaning_plot)
