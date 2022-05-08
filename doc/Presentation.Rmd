@@ -38,7 +38,6 @@ library(png)
 
     -   [categorical (10):]{.underline} class, anemia, <br/> diabetes melitus and others.
 
-
 <div style= "float:right;position: relative; top: -170px;">
 
 ![](../figures/distributions/age_distribution.png){width="521" height="317"}
@@ -95,6 +94,10 @@ library(png)
 ::: centered
 ![](images/creatinine_urea_relationship.png){width="600"}
 :::
+
+## Principal component analysis
+
+![](images/var_pca_plot.png)
 
 ## Principal component analysis
 

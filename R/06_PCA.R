@@ -62,7 +62,8 @@ var_plot_pca = var_df %>%
            alpha = 0.6) +
   labs(title = "Variance explained by principal components") +
   theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) 
+        axis.ticks.x = element_blank()) +
+  theme_grey(base_size = 13)
   
 plot(var_plot_pca)
 
@@ -156,7 +157,7 @@ ggsave ("pca_plot.png" ,
 
 ggsave ("var_pca_plot.png" , 
         path = "figures" ,
-        plot = var,
+        plot = var_plot_pca,
         width = 8, 
         height = 5)
 
