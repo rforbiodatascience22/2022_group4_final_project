@@ -55,16 +55,19 @@ tidied_pca <- tidy(pca_prep2, 2)
 
 
 # Visualization ----------------------------------------------------------------------------
+
+
 var_plot_pca = var_df %>%
-  mutate(PC = fct_inorder(PC)) %>%
+  mutate(PC = c(1:28)) %>%
   ggplot(aes(x = PC,y=var_explained)) + 
   geom_col(fill = '#482677ff',
            alpha = 0.6) +
   labs(title = "Variance explained by principal components") +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
-  theme_grey(base_size = 13)
-  
+  theme_grey(base_size = 13) +
+  scale_x_continuous(breaks=seq(1,28,1))
+
 plot(var_plot_pca)
 
 pca_plot = juice(pca_prep) %>%

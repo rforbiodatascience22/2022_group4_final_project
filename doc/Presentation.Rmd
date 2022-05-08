@@ -73,7 +73,11 @@ library(png)
 ![](images/figures/04_hemo_pcv_relationship.png){width="600"}
 :::
 
+<<<<<<< HEAD
+## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
+=======
 ## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
+>>>>>>> 53778c8b84f9826ff9a67beb123ebbaa77f8c899
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
@@ -103,7 +107,7 @@ library(png)
 ![](images/figures/06_pca_plot.png){width="800"}
 :::
 
-## Modelling \| Linear regression - all redictors
+## Modelling \| Linear regression - all predictors
 
 ![](images/figures/05_roc_lin_reg1.png){width="500"} ![](images/figures/05_lin_reg1_confusion_matrix_normalized.png){width="400"}
 

@@ -2,7 +2,6 @@
 
 Project investigating relationship between CKD and biological markers
 
-<<<<<<< HEAD
 The contents of this project include the R scripts, which perform the following tasks:
 
 **Transformation of the data-set**
@@ -29,11 +28,4 @@ The contents of this project include the R scripts, which perform the following 
 
 **Functions**
 
-<<<<<<< HEAD
 -\> functions that help in building the ROC and confusion matrix plots
-
-
-
-=======
--\> functions that help in building the ROC and confusion matrix plots
->>>>>>> f3fd803807a504dcdfce79540f19c1eb1b7643d5
