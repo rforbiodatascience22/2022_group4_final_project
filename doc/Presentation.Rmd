@@ -30,7 +30,7 @@ library(png)
 3.  Data analysis - *PCA*
 4.  Modelling - *Linear regression and K-nearest neighbors*
 
-## Materials and Methods \| **The Dataset**
+## Materials and Methods \| **The Data-set**
 
 -   The data-set was obtained from **UCI Machine Learning Depository**
 -   **400 observations of 25 attributes**:
@@ -44,7 +44,7 @@ library(png)
 
 ## Data loading, cleaning and augmentation
 
-1.  [**Loading**]{.underline}**:** Artificially splitting the dataset in **2 groups:** Healthy patients and patients with CKD and then joining
+1.  [**Loading**]{.underline}**:** Artificially splitting the data-set in **2 groups:** Healthy patients and patients with CKD and then joining
 2.  [**Cleaning:**]{.underline}
 
 ::: centered
@@ -55,6 +55,8 @@ library(png)
 
 ![](images/figures/04_cleaning_plot.png){width="700"}
 
+<br/>
+
 **3. [Augmenting:]{.underline}** Creating new variables *Age_group, Disease_no, Disease_type*
 
 ## Results and Discussion \| **Data exploration**
@@ -63,7 +65,7 @@ library(png)
 ![](images/figures/04_cor_heatmap.png){width="780"}
 :::
 
-## Data Visualisation \| **Hemoglobin and Packed Cell Volume relationship**
+## Data Visualization \| **Hemoglobin and Packed Cell Volume relationship**
 
 -   Hemoglobin analysis results in clear separation between classes: sick and healthy patients
 
@@ -73,11 +75,7 @@ library(png)
 ![](images/figures/04_hemo_pcv_relationship.png){width="600"}
 :::
 
-<<<<<<< HEAD
 ## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
-=======
-## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
->>>>>>> 53778c8b84f9826ff9a67beb123ebbaa77f8c899
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
@@ -95,27 +93,33 @@ library(png)
 ![](images/figures/04_creatinine_urea_relationship.png){width="600"}
 :::
 
-## Principal component analysis
+## Principal component analysis \| Variability
 
 ::: centered
-![](images/figures/06_var_pca_plot.png){width="800"}
+![](images/figures/06_var_pca_plot.png){width="634"}
 :::
 
-## Principal component analysis
+## Principal component analysis \| The loading plot
 
 ::: centered
-![](images/figures/06_pca_plot.png){width="800"}
+![](images/figures/06_pca_plot.png){width="633"}
 :::
 
 ## Modelling \| Linear regression - all predictors
+
+-   85% sensitivity at 100% specificity
 
 ![](images/figures/05_roc_lin_reg1.png){width="500"} ![](images/figures/05_lin_reg1_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| Linear regression - Hemoglobin and PCV
 
+-   100% sensitivity at 100% specificity
+
 ![](images/figures/05_roc_lin_reg2.png){width="500"} ![](images/figures/05_lin_reg2_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| K-Nearest Neighbors
+
+-   100% sensitivity at 99% specificity
 
 ![](images/figures/05_roc_knn.png){width="500"}
 
