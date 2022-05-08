@@ -44,8 +44,8 @@ pca_prep2 <- prep(pca_rec2)
 
 #all preparation for plotting----------------------------------------------------------------
 
-sdev <- pca_prep$steps[[2]]$res$sdev
-percent_variation <- sdev^2 / sum(sdev^2)
+sdev <- pca_prep$steps[[3]]$res$sdev
+percent_variation <- sdev^2 / sum(sdev^2-0.3)
 var_df <- data.frame(PC = paste0("PC",
                                  1:length(sdev)),
                      var_explained = percent_variation,
@@ -55,13 +55,17 @@ tidied_pca <- tidy(pca_prep2, 2)
 
 
 # Visualization ----------------------------------------------------------------------------
-var_df %>%
+var_plot_pca = var_df %>%
   mutate(PC = fct_inorder(PC)) %>%
   ggplot(aes(x = PC,y=var_explained)) + 
-  geom_col() +
+  geom_col(fill = '#482677ff',
+           alpha = 0.6) +
+  labs(title = "Variance explained by principal components") +
   theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
-
+        axis.ticks.x = element_blank()) +
+  theme_grey(base_size = 13)
+  
+plot(var_plot_pca)
 
 pca_plot = juice(pca_prep) %>%
   ggplot(aes(PC1, 
@@ -151,6 +155,13 @@ ggsave ("06_pca_plot.png" ,
         plot = pca_plot,
         width = 8, 
         height = 5)
+
+ggsave ("var_pca_plot.png" , 
+        path = "figures" ,
+        plot = var_plot_pca,
+        width = 8, 
+        height = 5)
+
 
                 
                 

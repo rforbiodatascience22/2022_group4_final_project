@@ -77,7 +77,11 @@ library(png)
 ![](images/hemo_pcv_relationship.png){width="600"}
 :::
 
+<<<<<<< HEAD
 ## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
+=======
+## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
+>>>>>>> 962481a3294b12c870e7c4489fe3008959fb09c0
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
@@ -87,12 +91,22 @@ library(png)
 ![](images/hemo_albumin_relat-01.png){width="600"}
 :::
 
+<<<<<<< HEAD
 ## Data Visualization \| **Serum Creatinine and Blood Urea relationship**
+=======
+## Data Visualisation \| **Serum Creatinine and Blood Urea relationship**
+>>>>>>> 962481a3294b12c870e7c4489fe3008959fb09c0
 
 -   Most common markers for assessing renal function: [the glomerular filtration rate]{.underline} (rapid decline of GFR associated with CKD)
 
 ::: centered
 ![](images/creatinine_urea_relationship.png){width="600"}
+:::
+
+## Principal component analysis
+
+::: centered
+![](images/var_pca_plot-01.png){width="800"}
 :::
 
 ## Principal component analysis
