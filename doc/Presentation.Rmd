@@ -103,7 +103,7 @@ library(png)
 ![](images/figures/06_pca_plot.png){width="800"}
 :::
 
-## Modelling \| Linear regression - all redictors
+## Modelling \| Linear regression - all predictors
 
 ![](images/figures/05_roc_lin_reg1.png){width="500"} ![](images/figures/05_lin_reg1_confusion_matrix_normalized.png){width="400"}
 

@@ -432,6 +432,6 @@ ggsave("05_roc_all.png",
 ggsave("05_metrics_summary.png",
        path = "doc/images/figures",
        plot = metrics_summary,
-       width = 6,
+       width = 7,
        height = 4)
 
