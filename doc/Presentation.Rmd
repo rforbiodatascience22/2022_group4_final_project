@@ -107,7 +107,7 @@ library(png)
 
 ## Modelling \| Linear regression - all predictors
 
--   85% sensitivity at 100% specificity
+-   90% sensitivity at 100% specificity
 
 ![](images/figures/05_roc_lin_reg1.png){width="500"} ![](images/figures/05_lin_reg1_confusion_matrix_normalized.png){width="400"}
 
@@ -119,7 +119,7 @@ library(png)
 
 ## Modelling \| K-Nearest Neighbors
 
--   100% sensitivity at 99% specificity
+-   100% sensitivity at 98% specificity
 
 ![](images/figures/05_roc_knn.png){width="500"}
 
