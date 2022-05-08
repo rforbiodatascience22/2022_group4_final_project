@@ -40,7 +40,7 @@ library(png)
 
 <div style= "float:right;position: relative; top: -170px;">
 
-![](../figures/distributions/age_distribution.png){width="521" height="317"}
+![](images/figures/04_age_distribution.png){width="521" height="317"}
 
 ## Data loading, cleaning and augmentation
 
@@ -48,23 +48,19 @@ library(png)
 2.  [**Cleaning:**]{.underline}
 
 ::: centered
-![](images/missing_values.png){width="600"}
+![](images/figures/02_missing_values.png){width="600"}
 :::
 
 ------------------------------------------------------------------------
 
-![](images/cleaning_plot-02.png){width="700"}
-
--   **Raw data:** 62% patients with CKD, 38% Healthy
-
--   **Cleaned data**: 42% patients with CKD, 52% Healthy
+![](images/figures/04_cleaning_plot.png){width="700"}
 
     **3. [Augmenting:]{.underline}** Creating new variables *Age_group, Disease_no, Disease_type*
 
 ## Results and Discussion \| **Data exploration**
 
 ::: centered
-![](images/cor_heatmap.png){width="780"}
+![](images/figures/04_cor_heatmap.png){width="780"}
 :::
 
 ## Data Visualisation \| **Hemoglobin and Packed Cell Volume relationship**
@@ -74,71 +70,67 @@ library(png)
 -   Low hemoglobin (and low PCV) are related to anemia, a common CKD complication
 
 ::: centered
-![](images/hemo_pcv_relationship.png){width="600"}
+![](images/figures/04_hemo_pcv_relationship.png){width="600"}
 :::
 
 <<<<<<< HEAD
 ## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
 =======
 ## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
->>>>>>> 962481a3294b12c870e7c4489fe3008959fb09c0
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
 -   Excess albumin in the urine ([low serum albumin]{.underline}) is an indicator of kidney failure
 
 ::: centered
-![](images/hemo_albumin_relat-01.png){width="600"}
+![](images/figures/04_hemo_albumin_relat.png){width="600"}
 :::
 
-<<<<<<< HEAD
+
 ## Data Visualization \| **Serum Creatinine and Blood Urea relationship**
-=======
-## Data Visualisation \| **Serum Creatinine and Blood Urea relationship**
->>>>>>> 962481a3294b12c870e7c4489fe3008959fb09c0
 
 -   Most common markers for assessing renal function: [the glomerular filtration rate]{.underline} (rapid decline of GFR associated with CKD)
 
 ::: centered
-![](images/creatinine_urea_relationship.png){width="600"}
+![](images/figures/04_creatinine_urea_relationship.png){width="600"}
 :::
 
 ## Principal component analysis
 
 ::: centered
-![](images/var_pca_plot-01.png){width="800"}
+![](images/figures/06_var_pca_plot.png){width="800"}
 :::
 
 ## Principal component analysis
 
 ::: centered
-![](images/pca_plot-01.png){width="800"}
+![](images/figures/06_pca_plot.png){width="800"}
 :::
 
 ## Modelling \| Linear regression - all redictors
 
-![](images/roc_lin_reg1.png){width="500"} ![](images/lin_reg1_confusion_matrix_normalized.png){width="400"}
+![](images/figures/05_roc_lin_reg1.png){width="500"} ![](images/figures/05_lin_reg1_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| Linear regression - Hemoglobin and PCV
 
-![](images/roc_lin_reg2.png){width="500"} ![](images/lin_reg2_confusion_matrix_normalized.png){width="400"}
+![](images/figures/05_roc_lin_reg2.png){width="500"} ![](images/figures/05_lin_reg2_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| K-Nearest Neighbors
 
-![](images/roc_knn-01.png){width="500"}
+![](images/figures/05_roc_knn.png){width="500"}
 
-![](images/knn_confusion_matrix_normalized.png){width="400"}
+![](images/figures/05_knn_confusion_matrix_normalized.png){width="400"}
 
 ## Modelling \| Model metrics summary
 
 ::: centered
-![](images/metrics_summary.png){width="700"}
+![](images/figures/05_metrics_summary.png){width="700"}
 :::
 
 ## Modelling \| ROC - All models
 
 ::: centered
-![](images/roc_all-01.png){width="700"}
+![](images/figures/05_roc_all.png){width="700"}
 :::
 
 ## Conclusion

@@ -156,8 +156,8 @@ ggsave ("06_pca_plot.png" ,
         width = 8, 
         height = 5)
 
-ggsave ("var_pca_plot.png" , 
-        path = "figures" ,
+ggsave ("06_var_pca_plot.png" , 
+        path = "doc/images/figures",
         plot = var_plot_pca,
         width = 8, 
         height = 5)
