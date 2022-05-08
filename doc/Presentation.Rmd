@@ -38,6 +38,7 @@ library(png)
 
     -   [categorical (10):]{.underline} class, anemia, <br/> diabetes melitus and others.
 
+
 <div style= "float:right;position: relative; top: -170px;">
 
 ![](../figures/distributions/age_distribution.png){width="521" height="317"}
@@ -77,25 +78,19 @@ library(png)
 ![](images/hemo_pcv_relationship.png){width="600"}
 :::
 
-
-
 ## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
 -   Excess albumin in the urine ([low serum albumin]{.underline}) is an indicator of kidney failure
 
-
 ::: centered
 ![](images/hemo_albumin_relat-01.png){width="600"}
 :::
 
-
-
 ## Data Visualisation \| **Serum Creatinine and Blood Urea relationship**
 
 -   Most common markers for assessing renal function: [the glomerular filtration rate]{.underline} (rapid decline of GFR associated with CKD)
-
 
 ::: centered
 ![](images/creatinine_urea_relationship.png){width="600"}
