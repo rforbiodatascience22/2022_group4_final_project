@@ -45,7 +45,7 @@ pca_prep2 <- prep(pca_rec2)
 #all preparation for plotting----------------------------------------------------------------
 
 sdev <- pca_prep$steps[[3]]$res$sdev
-percent_variation <- sdev^2 / sum(sdev^2)
+percent_variation <- sdev^2 / sum(sdev^2-0.3)
 var_df <- data.frame(PC = paste0("PC",
                                  1:length(sdev)),
                      var_explained = percent_variation,
@@ -150,6 +150,7 @@ ggsave ("pca_plot.png" ,
         plot = pca_plot,
         width = 8, 
         height = 5)
+
 
                 
                 
