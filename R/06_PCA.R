@@ -38,7 +38,7 @@ pca_prep2 <- prep(pca_rec2)
 
 #all preparation for plotting----------------------------------------------------------------
 
-sdev <- pca_prep$steps[[2]]$res$sdev
+sdev <- pca_prep$steps[[3]]$res$sdev
 percent_variation <- sdev^2 / sum(sdev^2)
 var_df <- data.frame(PC=paste0("PC",1:length(sdev)),
                      var_explained=percent_variation,
