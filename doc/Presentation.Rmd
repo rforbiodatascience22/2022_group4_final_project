@@ -97,7 +97,9 @@ library(png)
 
 ## Principal component analysis
 
-![](images/var_pca_plot.png)
+::: centered
+![](images/var_pca_plot-01.png){width="800"}
+:::
 
 ## Principal component analysis
 
