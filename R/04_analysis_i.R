@@ -100,11 +100,13 @@ cleaning_plot = NAs_progress  %>%
            alpha=0.6, 
            width=0.4) +
   coord_flip() +
-  geom_text(hjust = 1, 
+  geom_text(hjust = 1.1, 
             position = "stack",
-            color = "black",
+            color = "white",
             size = 4,
             fontface = "bold") +
+  scale_fill_manual(values = c('#482677ff',
+                                '#36bb75ff')) +
   labs(x = "",
        y = "Number of observations in the dataset",
        title = "Data cleaning process") +
