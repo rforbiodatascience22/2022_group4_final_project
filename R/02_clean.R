@@ -30,10 +30,11 @@ missing_values = my_data %>%
         ggplot(aes(x = reorder(columns,
                                desc(missing_data)), 
                    y = missing_data)) +
-        geom_col(fill = '#482677ff', alpha = 0.7) +
-        labs(x = 'Attributes', 
-        y = 'Missing data',
-        title = 'Number of NAs in raw data') +
+        geom_col(fill = '#482677ff',
+                 alpha = 0.7) +
+        labs(x = 'Attributes',
+             y = 'Missing data',
+             title = 'Number of NAs in raw data') +
         theme_grey(base_size = 13) +
         theme(axis.text.x = element_text(angle = 45,
                                          vjust = 1, 
@@ -41,20 +42,20 @@ missing_values = my_data %>%
   
 plot(missing_values)
 
-## Casting numbers treaed as chars to dtpýpe numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Casting numbers listed as characters to numeric----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 my_data_clean = my_data %>% 
-  mutate(pcv = as.numeric(pcv) ,
-         wc = as.numeric(wc) ,
+  mutate(pcv = as.numeric(pcv),
+         wc = as.numeric(wc),
          rc = as.numeric(rc))
 
 
 ## Replacing numeric missing values to median of each of the columns----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 my_data_clean = my_data_clean %>% 
-  mutate_if(is.numeric , 
-            function(x) ifelse(is.na(x) , 
-                               median(x , 
-                                      na.rm = T) , 
+  mutate_if(is.numeric, 
+            function(x) ifelse(is.na(x), 
+                               median(x, 
+                                      na.rm = T), 
                                x))
 
 
@@ -75,9 +76,10 @@ my_data_clean = my_data_clean %>%
 
 ## Casting chars to categorical variable ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Having categorical variables we can easily cast them to numerical right before plotting or modelling. Casting formula below.
-# mutate_if(is.factor, as.numeric)
-# Casting was not applied here not to loose the meaning of each of the vars. Encoded labels will be less explenatory at this point.
+# Having categorical variables we can easily cast them to numerical 
+#right before plotting or modelling. 
+# Casting was not applied here not to loose the meaning of each of the vars. 
+#Encoded labels will be less explanatory at this point.
 
 my_data_clean = my_data_clean %>%
   mutate_if(is.character, 
@@ -122,8 +124,8 @@ write_tsv(x = my_data_clean,
 
 ## Write plots ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-ggsave("missing_values.png", 
-       path = "figures" , 
+ggsave("02_missing_values.png", 
+       path = "doc/images/figures" , 
        plot = missing_values, 
        width = 8, 
        height = 5)
