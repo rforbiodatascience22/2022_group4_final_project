@@ -134,3 +134,7 @@ library(png)
 -   Linear regression with hemoglobin and PCV - highest specificity and sensitivity
 
 -   Prediction of CKD based only on 2 attributes
+
+-   Application in diagnostics
+
+-   Future: use of serum creatinine and blood urea in modelling
