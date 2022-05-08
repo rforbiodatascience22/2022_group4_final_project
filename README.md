@@ -30,6 +30,3 @@ The contents of this project include the R scripts, which perform the following 
 **Functions**
 
 -\> functions that help in building the ROC and confusion matrix plots
-=======
-
->>>>>>> 962481a3294b12c870e7c4489fe3008959fb09c0
