@@ -25,31 +25,27 @@ library(png)
 
 ## Materials and Methods
 
--   Cleaning and augmenting
--   Data exploration
--   Data analysis
--   Modelling
+1.  Cleaning and augmenting
+2.  Data exploration
+3.  Data analysis - *PCA*
+4.  Modelling - *Linear regression and K-nearest neighbors*
 
-## Materials and Methods \| The Dataset
+## Materials and Methods \| **The Dataset**
 
--   The data-set was obtained from UCI Machine Learning Depository
+-   The data-set was obtained from **UCI Machine Learning Depository**
 -   **400 observations of 25 attributes**:
-    -   [numerical (15):]{.underline} age, blood pressure, specific gravity, albumin, sugar, blood glucose random, blood urea, serum creatinine, sodium, potassium, hemoglobin, packed cell volume, white blood cell count, red blood cell count
+    -   [numerical (15):]{.underline} albumin, blood urea, <br/>serum creatinine, hemoglobin, <br/> packed cell volume, and others
 
-    -   [categorical (10):]{.underline} red blood cells,<br/> 
-pus cell, pus cell clumps, bacteria,<br/>
-hypertension,diabetes mellitus, <br/>
-coronary artery disease, appetite, <br/>
-pedal edema, anemia, class
+    -   [categorical (10):]{.underline} class, anemia, <br/> diabetes melitus and others.
 
 <div style= "float:right;position: relative; top: -170px;">
+
 ![](../figures/distributions/age_distribution.png){width="521" height="317"}
 
 ## Data loading, cleaning and augmentation
 
--   [**Loading**]{.underline}**:** Artificially splitting the dataset in **2 groups:** Healthy patients and patients with CKD and then joinning
-
--   [**Cleaning:**]{.underline}
+1.  [**Loading**]{.underline}**:** Artificially splitting the dataset in **2 groups:** Healthy patients and patients with CKD and then joining
+2.  [**Cleaning:**]{.underline}
 
 ::: centered
 ![](images/missing_values.png){width="600"}
@@ -57,53 +53,61 @@ pedal edema, anemia, class
 
 ------------------------------------------------------------------------
 
-::: centered
-![](images/cleaning_plot-01.png){width="750"}
-:::
+![](images/cleaning_plot-02.png){width="700"}
 
--   [**Augmenting:**]{.underline} Creating new variables *Age_group, Disease_no, Disease_type*
+-   **Raw data:** 62% patients with CKD, 38% Healthy
 
-## Data exploration
+-   **Cleaned data**: 42% patients with CKD, 52% Healthy
 
--\> relationship between hemoglobin and packed cell volume, hemoglobin and albumin and serum creatinine and blood urea
+    **3. [Augmenting:]{.underline}** Creating new variables *Age_group, Disease_no, Disease_type*
 
-::: centered
-![](images/cor_heatmap.png){width="682"}
-:::
-
-------------------------------------------------------------------------
-
--   logical association between the two variables (amount of hemoglobin and the volume percentage of red blood cells in blood)
-
--   visible differentiation of the CKD and non-CKD patients because anemia is a normal complication for this disease (reduction of red blood cells the further the disease progresses)
+## Results and Discussion \| **Data exploration**
 
 ::: centered
-![](images/hemo_pcv_relationship.png){width="627"}
+![](images/cor_heatmap.png){width="780"}
 :::
 
-------------------------------------------------------------------------
+## Data Visualisation \| **Hemoglobin and Packed Cell Volume relationship**
 
--   shown like this because albumin is measured categorically, where the number displays the number of positive test results for albumin in urine
+-   Clear separation between classes: sick and healthy patients
 
--   there is proof that albumin is associated with CKD (A healthy kidney doesn't let albumin pass from the blood into the urine)
+-   Low hemoglobin (and lower PCV) are related to anemia, common CKD complication
 
 ::: centered
-![](images/hemo_albumin_relat-01.png){width="626"}
+![](images/hemo_pcv_relationship.png){width="600"}
 :::
 
-------------------------------------------------------------------------
 
--   most common markers for assessing renal function
 
--   Creatinine and urea blood levels reflect the glomerular filtration rate, which declines exponentially as CKD progresses
+## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
+
+-   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
+
+-   Excess albumin in the urine ([low serum albumin]{.underline}) is an indicator of kidney failure
+
 
 ::: centered
-![](images/creatinine_urea_relationship.png){width="620"}
+![](images/hemo_albumin_relat-01.png){width="600"}
 :::
 
-## Data analysis \| PCA and K-nearest neighbours
 
-## Modelling \| Linear regression - all parameters
+
+## Data Visualisation \| **Serum Creatinine and Blood Urea relationship**
+
+-   Most common markers for assessing renal function: [the glomerular filtration rate]{.underline} (rapid decline of GFR associated with CKD)
+
+
+::: centered
+![](images/creatinine_urea_relationship.png){width="600"}
+:::
+
+## Principal component analysis
+
+::: centered
+![](images/pca_plot-01.png){width="800"}
+:::
+
+## Modelling \| Linear regression - all redictors
 
 ![](images/roc_lin_reg1.png){width="500"} ![](images/lin_reg1_confusion_matrix_normalized.png){width="400"}
 
@@ -111,4 +115,26 @@ pedal edema, anemia, class
 
 ![](images/roc_lin_reg2.png){width="500"} ![](images/lin_reg2_confusion_matrix_normalized.png){width="400"}
 
-## Discussion
+## Modelling \| K-Nearest Neighbors
+
+![](images/roc_knn-01.png){width="500"}
+
+![](images/knn_confusion_matrix_normalized.png){width="400"}
+
+## Modelling \| Model metrics summary
+
+::: centered
+![](images/metrics_summary.png){width="700"}
+:::
+
+## Modelling \| ROC - All models
+
+::: centered
+![](images/roc_all-01.png){width="700"}
+:::
+
+## Conclusion
+
+-   Linear regression with hemoglobin and PCV - highest specificity and sensitivity
+
+-   Prediction of CKD based only on 2 attributes
