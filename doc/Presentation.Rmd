@@ -55,7 +55,7 @@ library(png)
 
 ![](images/figures/04_cleaning_plot.png){width="700"}
 
-    **3. [Augmenting:]{.underline}** Creating new variables *Age_group, Disease_no, Disease_type*
+**3. [Augmenting:]{.underline}** Creating new variables *Age_group, Disease_no, Disease_type*
 
 ## Results and Discussion \| **Data exploration**
 
@@ -73,9 +73,6 @@ library(png)
 ![](images/figures/04_hemo_pcv_relationship.png){width="600"}
 :::
 
-<<<<<<< HEAD
-## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
-=======
 ## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
@@ -85,7 +82,6 @@ library(png)
 ::: centered
 ![](images/figures/04_hemo_albumin_relat.png){width="600"}
 :::
-
 
 ## Data Visualization \| **Serum Creatinine and Blood Urea relationship**
 
