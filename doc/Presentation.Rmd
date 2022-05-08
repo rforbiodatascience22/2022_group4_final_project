@@ -69,33 +69,27 @@ library(png)
 
 ## Data Visualisation \| **Hemoglobin and Packed Cell Volume relationship**
 
--   Clear separation between classes: sick and healthy patients
+-   Hemoglobin analysis results in clear separation between classes: sick and healthy patients
 
--   Low hemoglobin (and lower PCV) are related to anemia, common CKD complication
+-   Low hemoglobin (and low PCV) are related to anemia, a common CKD complication
 
 ::: centered
 ![](images/hemo_pcv_relationship.png){width="600"}
 :::
 
-
-
-## Data Visualisation \| **Hemoglobin and Serum Albumin relationship**
+## Data Visualization \| **Hemoglobin and Serum Albumin relationship**
 
 -   Albumin = number of positive tests for albumin [in the urine]{.underline} (discrete)
 
 -   Excess albumin in the urine ([low serum albumin]{.underline}) is an indicator of kidney failure
 
-
 ::: centered
 ![](images/hemo_albumin_relat-01.png){width="600"}
 :::
 
-
-
-## Data Visualisation \| **Serum Creatinine and Blood Urea relationship**
+## Data Visualization \| **Serum Creatinine and Blood Urea relationship**
 
 -   Most common markers for assessing renal function: [the glomerular filtration rate]{.underline} (rapid decline of GFR associated with CKD)
-
 
 ::: centered
 ![](images/creatinine_urea_relationship.png){width="600"}

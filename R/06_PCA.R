@@ -1,5 +1,4 @@
 
-
 # Libraries
 
 library(tidyverse)
@@ -14,6 +13,7 @@ my_data_clean_aug <- read_tsv(file = "data/03_my_data_clean_aug.tsv")
 # Wrangle data ------------------------------------------------------------
 
 #any extra transformation before modelling
+
 my_data_clean_aug1 <- my_data_clean_aug %>% 
   mutate_if(is.character, 
             as.factor) %>% 
@@ -145,8 +145,9 @@ tidied_pca %>%
     labs(y = NULL) 
 
 #------Writing Data------------------------------------------------------------------------
-ggsave ("pca_plot.png" , 
-        path = "figures" ,
+
+ggsave ("06_pca_plot.png" , 
+        path = "doc/images/figures" ,
         plot = pca_plot,
         width = 8, 
         height = 5)

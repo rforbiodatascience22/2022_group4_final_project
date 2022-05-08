@@ -19,12 +19,12 @@ my_data_clean_aug = read_tsv(file = "data/03_my_data_clean_aug.tsv")
 
 # Wrangle data ------------------------------------------------------------
 
-#any extra transformation before modelling
+##any extra transformation before modelling
 my_data_clean_aug = my_data_clean_aug %>% 
   mutate_if(is.character, 
             as.factor)
 
-#Creating variables for plotting
+# Creating variables for plotting --------------------------------------------
 
 my_data_clean_aug_disease = my_data_clean_aug %>% 
   select(ID, 
@@ -54,40 +54,56 @@ my_data_clean_aug_diabetes = my_data_clean_aug %>%
          Class) %>%
   filter(Class == "ckd")
 
-#Data frame for data cleaning plot
+##Data frame for data cleaning plot
+
 NAs_progress = data.frame(step = c("Raw data", 
+                                   "Raw data",
                                    "Replacing NAs (numerical)",
-                                   "Dropping NAs (categorical)"), 
-                          size = c(400.001, 
-                                   400, 
-                                   233), 
-                          variable_name = c("my_data", 
-                                            "my_data_clean", 
-                                            "my_data_clean"), 
-                          percent = c(1,
-                                      1,
+                                   "Replacing NAs (numerical)",
+                                   "Dropping NAs (categorical)",
+                                   "Dropping NAs (categorical)"),
+                          size = c(248.01,
+                                   152.01,
+                                   248,
+                                   152,
+                                   98, 
+                                   135),
+                          disease = c("CKD",
+                                    "Healthy",
+                                    "CKD",
+                                    "Healthy",
+                                    "CKD",
+                                    "Healthy"),
+                          percent = c(0.62,
+                                      0.38,
+                                      0.62,
+                                      0.38,
+                                      0.42,
                                       0.58))
+
 
 NAs_progress = as.tibble(NAs_progress)
 
 # Visualize data ----------------------------------------------------------
 
-#Cleaning progress
+##Cleaning progress
 
 cleaning_plot = NAs_progress  %>% 
   mutate(step = fct_reorder(step, 
                             size)) %>%
   ggplot(aes(x = step, 
              y = size, 
-             label = scales::percent(percent))) +
-  geom_bar(fill = '#482677ff', 
-           stat="identity", 
+             fill =  disease,
+             label = scales::percent(percent)
+             )) +
+  geom_bar(stat="identity", 
            alpha=0.6, 
            width=0.4) +
   coord_flip() +
-  geom_text(nudge_y = -50,
-            color = "white",
-            size = 5,
+  geom_text(hjust = 1, 
+            position = "stack",
+            color = "black",
+            size = 4,
             fontface = "bold") +
   labs(x = "",
        y = "Number of observations in the dataset",
@@ -260,7 +276,7 @@ red_blood = my_data_clean_aug %>%
 plot(red_blood)
 
 
-#plot relationship between hemoglobin and albumin grouped by classification
+##plot relationship between hemoglobin and albumin grouped by classification
 
 hemo_al_plot = my_data_clean %>% 
   select(Class,
@@ -271,7 +287,7 @@ hemo_al_plot = my_data_clean %>%
                        fill = Class)) +
   scale_fill_manual(values = c('#482677ff',
                                '#36bb75ff')) +
-                      geom_boxplot(alpha = 0.6) +
+  geom_boxplot(alpha = 0.6) +
   labs(x = "Albumin",
        y = "Hemoglobin (gms)",
        title = "Relationship between hemoglobin and albumin", 
@@ -282,16 +298,17 @@ hemo_al_plot = my_data_clean %>%
 
 plot(hemo_al_plot)
 
-#relationship between hemoglobin and packed cell volume grouped by classification
+##relationship between hemoglobin and packed cell volume grouped by classification
 
 hemo_pvc_plot = my_data_clean %>%
   select(Class, 
          Hemoglobin,
          Packed_cell_vol) %>% 
   ggplot(mapping = aes(x = Packed_cell_vol, 
-                       y = Hemoglobin,                                     color = Class))+
-                       geom_point(size = 2.5, 
-                                  alpha = 0.6) +
+                       y = Hemoglobin,
+                       color = Class))+
+  geom_point(size = 2.5, 
+             alpha = 0.6) +
   scale_color_manual(values = c("#482677ff",
                                 "#36bb75ff")) +
   labs(x = "Packed cell volume",
@@ -303,10 +320,11 @@ hemo_pvc_plot = my_data_clean %>%
 
 plot(hemo_pvc_plot)
 
-lm_fit <- lm(my_data_clean ~ Serum_creatinine + Blood_urea , data=df)
-summary(lm_fit)
+#lm_fit <- lm(my_data_clean ~ Serum_creatinine + Blood_urea , data=df)
+#summary(lm_fit)
 
 #Serum creatinine and blood urea relationship
+
 serum_urea_plot = my_data_clean %>% 
   select(Class, 
          Blood_urea, 
@@ -316,7 +334,8 @@ serum_urea_plot = my_data_clean %>%
   geom_point(aes(color = Class), 
              size = 2.5, 
              alpha = 0.6 ) +
-  geom_smooth(method = "lm", color = "black") +
+  geom_smooth(method = "lm", 
+              color = "black") +
   scale_color_manual(values = c("#482677ff",
                                 "#36bb75ff")) +
   scale_x_continuous(trans = 'log10') +
@@ -333,75 +352,77 @@ plot(serum_urea_plot)
 
 
 # Write data --------------------------------------------------------------
-#write_tsv(...)
-ggsave("cleaning_plot.png", 
-       path = "figures" , 
+
+#save plots
+
+ggsave("04_cleaning_plot.png", 
+       path = "doc/images/figures" , 
        plot = cleaning_plot, 
        width = 8, 
        height = 5)
 
-ggsave("creatinine_urea_relationship.png", 
-       path = "figures" , 
+ggsave("04_creatinine_urea_relationship.png", 
+       path = "doc/images/figures", 
        plot = serum_urea_plot, 
        width = 8, 
        height = 5)
 
-ggsave("hemo_pcv_relationship.png", 
-       path = "figures" , 
+ggsave("04_hemo_pcv_relationship.png", 
+       path = "doc/images/figures", 
        plot = hemo_pvc_plot, 
        width = 8, 
        height = 5)
 
-ggsave("cor_heatmap.png", 
-       path = "figures" , 
+ggsave("04_cor_heatmap.png", 
+       path = "doc/images/figures", 
        plot = cor_heatmap, 
        width = 8, 
        height = 5)
 
-ggsave("hemo_albumin_relat.png", 
-       path = "figures" , 
+ggsave("04_hemo_albumin_relat.png", 
+       path = "doc/images/figures", 
        plot = hemo_al_plot, 
        width = 8, 
        height = 5)
 
-ggsave("age_distribution.png", 
-       path = "figures/distributions" , 
+ggsave("04_age_distribution.png", 
+       path = "doc/images/figures", 
        plot = age_distribution, 
        width = 8, 
        height = 5)
 
-ggsave("disease_no_association.png",
-       path = "figures/" , 
+ggsave("04_disease_no_association.png",
+       path = "doc/images/figures", 
        plot = disease_no, 
        width = 8, 
        height = 5)
 
-ggsave ("which_disease.png" , 
-        path = "figures/distributions" ,
+ggsave ("04_which_disease.png" , 
+        path = "doc/images/figures",
         plot = find_disease, 
         width = 8, 
         height = 5)
 
-ggsave ("infection.png" ,
-        path = "figures/distributions" , 
+ggsave ("04_infection_status.png" ,
+        path = "doc/images/figures", 
         plot = find_infection, 
         width = 8, 
         height = 5)
 
-ggsave ("WC.png" , 
-        path = "figures/distributions" , 
+ggsave ("04_Whitecells.png" , 
+        path = "doc/images/figures", 
         plot = wc, 
         width = 8, 
         height = 5)
 
-ggsave ("diabetes_glucose_level.png" , 
-        path = "figures/distributions" , 
+ggsave ("04_diabetes_glucose_level.png" , 
+        path = "doc/images/figures", 
         plot = diabetes, 
         width = 8, 
         height = 5)
 
-ggsave ("redblood.png" , 
-        path = "figures" ,
+ggsave ("04_redcells.png" , 
+        path = "doc/images/figures",
         plot = red_blood,
         width = 8, 
         height = 5)

@@ -16,7 +16,8 @@ my_data_raw_notckd <- read_csv(file = "data/_raw/data_nonckd.csv")
 
 #this is we do the joining of meta data and the data
 
-my_data <- rbind(my_data_raw_ckd, my_data_raw_notckd)
+my_data <- rbind(my_data_raw_ckd, 
+                 my_data_raw_notckd)
   
 
 
